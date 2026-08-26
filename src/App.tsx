@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import { About } from "./components/About";
 import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
@@ -10,78 +12,60 @@ import { Newsletter } from "./components/Newsletter";
 import { Pricing } from "./components/Pricing";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Services } from "./components/Services";
-import { Sponsors } from "./components/Sponsors";
 import { Team } from "./components/Team";
 import { Testimonials } from "./components/Testimonials";
 // import AccordionGallery from "./components/AccordionGallery";
 import "./App.css";
 
-function App() {
-  // const items = [
-  //   {
-  //     image: "https://picsum.photos/id/1015/900/1200",
-  //     label: "Canyon",
-  //     link: "#",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/id/1018/900/1200",
-  //     label: "Ridgeline",
-  //     link: "#",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/id/1039/900/1200",
-  //     label: "Falls",
-  //     link: "#",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/id/1043/900/1200",
-  //     label: "Harbour",
-  //     link: "#",
-  //   },
-  //   {
-  //     image: "https://picsum.photos/id/1044/900/1200",
-  //     label: "Skyline",
-  //     link: "#",
-  //   },
-  // ];
+// Composant wrapper pour réutiliser l'animation
+function FadeInSection({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }} // Départ : invisible et 50px plus bas
+      whileInView={{ opacity: 1, y: 0 }} // Arrivée : visible et à sa position normale
+      viewport={{ once: true, margin: "-100px" }} // S'exécute 1 seule fois dès qu'elle est visible
+      transition={{ duration: 0.5, ease: "easeOut" }} // Durée et fluidité++++---+
+    >
+      {children}
+    </motion.div>
+  );
+}
 
+function App() {
   return (
     <>
       <Navbar />
       <Hero />
-
-      {/*<AccordionGallery
-        items={items}
-        defaultIndex={2}
-        expandRatio={0.52}
-        trigger="hover"
-        accentColor="#ffffff"
-        overlayColor="#060010"
-        textColor="#ffffff"
-        grayscale
-        showLabels
-        duration={0.6}
-        ease="power3.out"
-        parallax={0.5}
-        tilt={9}
-        stagger={0.06}
-        height={460}
-        gap={10}
-        radius={16}
-        orientation="horizontal"
-      />*/}
-
-      <Sponsors />
-      <About />
-      <HowItWorks />
-      <Features />
-      <Services />
-      <Cta />
-      <Testimonials />
-      <Team />
-      <Pricing />
-      <Newsletter />
-      <FAQ />
+      <FadeInSection>
+        <About />
+      </FadeInSection>
+      <FadeInSection>
+        <HowItWorks />
+      </FadeInSection>
+      <FadeInSection>
+        <Features />
+      </FadeInSection>
+      <FadeInSection>
+        <Services />
+      </FadeInSection>
+      <FadeInSection>
+        <Cta />
+      </FadeInSection>
+      <FadeInSection>
+        <Testimonials />
+      </FadeInSection>
+      <FadeInSection>
+        <Team />
+      </FadeInSection>
+      <FadeInSection>
+        <Pricing />
+      </FadeInSection>
+      <FadeInSection>
+        <Newsletter />
+      </FadeInSection>
+      <FadeInSection>
+        <FAQ />
+      </FadeInSection>
       <Footer />
       <ScrollToTop />
     </>

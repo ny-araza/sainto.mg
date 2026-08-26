@@ -146,8 +146,8 @@ export const Navbar = () => {
               rel="noreferrer noopener"
               href="#"
               target="_blank"
-              className={`border ${buttonVariants({
-                variant: "secondary",
+              className={` bg-blue-800 hover:bg-blue-500 ${buttonVariants({
+                variant: "default",
               })}`}
             >
               <FontAwesomeIcon className="mr-2" icon={faRobot} />
