@@ -16,6 +16,7 @@ import { Team } from "./components/Team";
 import { Testimonials } from "./components/Testimonials";
 // import AccordionGallery from "./components/AccordionGallery";
 import "./App.css";
+import { CartProvider } from "./context/CartContext";
 
 // Composant wrapper pour réutiliser l'animation
 function FadeInSection({ children }) {
@@ -34,37 +35,39 @@ function FadeInSection({ children }) {
 function App() {
   return (
     <>
-      <Navbar />
-      <Hero />
-      <FadeInSection>
-        <About />
-      </FadeInSection>
-      <FadeInSection>
-        <HowItWorks />
-      </FadeInSection>
-      <FadeInSection>
-        <Features />
-      </FadeInSection>
-      <FadeInSection>
-        <Services />
-      </FadeInSection>
-      <FadeInSection>
-        <Testimonials />
-      </FadeInSection>
-      {/*<FadeInSection>
+      <CartProvider>
+        <Navbar />
+        <Hero />
+        <FadeInSection>
+          <About />
+        </FadeInSection>
+        <FadeInSection>
+          <HowItWorks />
+        </FadeInSection>
+        <FadeInSection>
+          <Features />
+        </FadeInSection>
+        <FadeInSection>
+          <Services />
+        </FadeInSection>
+        <FadeInSection>
+          <Testimonials />
+        </FadeInSection>
+        {/*<FadeInSection>
         <Team />
       </FadeInSection>*/}
-      {/*<FadeInSection>
+        {/*<FadeInSection>
         <Pricing />
       </FadeInSection>*/}
-      {/*<FadeInSection>
+        {/*<FadeInSection>
         <Newsletter />
       </FadeInSection>*/}
-      <FadeInSection>
-        <FAQ />
-      </FadeInSection>
-      <Footer />
-      <ScrollToTop />
+        <FadeInSection>
+          <FAQ />
+        </FadeInSection>
+        <Footer />
+        <ScrollToTop />
+      </CartProvider>
     </>
   );
 }

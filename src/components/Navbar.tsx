@@ -17,11 +17,10 @@ import { Menu } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import logo from "../assets/logo_sainto_01.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRobot } from "@fortawesome/free-solid-svg-icons";
-import { Plus } from "./animate-ui/icons/plus";
-import { AnimateIcon } from "./animate-ui/icons/icon";
-import { IconButton } from "./animate-ui/components/buttons/icon";
+import { faCartShopping, faRobot } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "./animate-ui/components/buttons/button";
+import { useCart } from "@/context/CartContext";
+import { MyChart } from "./modal/myCart/myCart";
 
 interface RouteProps {
   href: string;
@@ -31,25 +30,25 @@ interface RouteProps {
 const routeList: RouteProps[] = [
   {
     href: "#features",
-    label: "Features",
+    label: "Nos produits",
   },
   {
     href: "#testimonials",
-    label: "Testimonials",
-  },
-  {
-    href: "#pricing",
-    label: "Pricing",
+    label: "FeedBacks",
   },
   {
     href: "#faq",
     label: "FAQ",
   },
+  {
+    href: "#footer",
+    label: "Nous contancter",
+  },
 ];
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const { ouvrirPanier, fermerPanier } = useCart();
   return (
     <header
       className="
@@ -64,6 +63,7 @@ export const Navbar = () => {
         supports-[backdrop-filter]:bg-background/30
       "
     >
+      <MyChart></MyChart>
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container flex h-14 w-screen justify-between px-4">
           <NavigationMenuItem className="flex font-bold">
@@ -80,7 +80,7 @@ export const Navbar = () => {
           <span className="flex md:hidden">
             <ModeToggle />
 
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <Sheet open={isOpenMenu} onOpenChange={setIsOpenMenu}>
               <SheetTrigger className="px-2">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Ouvrir le menu</span>
@@ -103,7 +103,7 @@ export const Navbar = () => {
                       rel="noreferrer noopener"
                       key={label}
                       href={href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setIsOpenMenu(false)}
                       className={buttonVariants({
                         variant: "ghost",
                       })}
@@ -123,7 +123,9 @@ export const Navbar = () => {
                     <FontAwesomeIcon className="mr-2" icon={faRobot} />
                     Assistant AI
                   </a>
-                  <Button className="hover:bg-blue-800 bg-blue-500">Voir le pannier</Button>
+                  <Button className="hover:bg-blue-800 bg-blue-500">
+                    Voir le pannier
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -146,24 +148,15 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden gap-2 md:flex justify-center items-center">
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              target="_blank"
-              className={` bg-blue-800 hover:bg-blue-500 ${buttonVariants({
-                variant: "default",
-              })}`}
-            >
+            <Button c variant={"ghost"}>
               <FontAwesomeIcon className="mr-2" icon={faRobot} />
               Assistant AI
-            </a>
+            </Button>
 
             <ModeToggle />
-            <IconButton className="bg-blue-500 hover:bg-blue-800">
-              <AnimateIcon>
-                <Plus />
-              </AnimateIcon>
-            </IconButton>
+            <Button className="bg-blue-500 hover:bg-blue-800" onClick={ouvrirPanier}>
+              <FontAwesomeIcon icon={faCartShopping} />
+            </Button>
           </div>
         </NavigationMenuList>
       </NavigationMenu>
