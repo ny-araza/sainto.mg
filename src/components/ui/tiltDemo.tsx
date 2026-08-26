@@ -52,7 +52,7 @@ export default function TiltDemo({
           </CardHeader>
 
           <CardContent className="space-y-2 text-center">
-            <h3 className="font-semibold">{product.name}</h3>
+            <h3 className="font-semibold text-blue-500">{product.name}</h3>
 
             <p className="text-base font-medium">{product.price} Ar</p>
 

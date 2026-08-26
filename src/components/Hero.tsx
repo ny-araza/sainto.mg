@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 import { buttonVariants } from "./ui/button";
-import background from "../assets/background_header04.jpg";
+import background from "../assets/background_header05.jpg";
 import { TypingTextDemo } from "./ui/typingText";
 
 
