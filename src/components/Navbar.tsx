@@ -85,8 +85,12 @@ export const Navbar = () => {
 
               <SheetContent side="left">
                 <SheetHeader>
-                  <SheetTitle className="text-xl font-bold">
-                    Shadcn/React
+                  <SheetTitle className="text-xl font-bold flex justify-center">
+                    <img
+                      src={logo}
+                      alt="logo_sainto"
+                      className="w-[90px] mt-2"
+                    />
                   </SheetTitle>
                 </SheetHeader>
 
@@ -109,12 +113,12 @@ export const Navbar = () => {
                     rel="noreferrer noopener"
                     href="https://github.com/leoMirandaa/shadcn-landing-page.git"
                     target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
+                    className={`w-[110px] pr-5 pl-5 border ${buttonVariants({
                       variant: "secondary",
                     })}`}
                   >
-                    <GitHubLogoIcon className="mr-2 h-5 w-5" />
-                    Github
+                    <FontAwesomeIcon className="mr-2" icon={faRobot} />
+                    Assistant AI
                   </a>
                 </nav>
               </SheetContent>
@@ -137,7 +141,7 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          <div className="hidden gap-2 md:flex">
+          <div className="hidden gap-2 md:flex justify-center items-center">
             <a
               rel="noreferrer noopener"
               href="#"
@@ -146,7 +150,7 @@ export const Navbar = () => {
                 variant: "secondary",
               })}`}
             >
-              <FontAwesomeIcon src={faRobot} />
+              <FontAwesomeIcon className="mr-2" icon={faRobot} />
               Assistant AI
             </a>
 

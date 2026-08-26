@@ -1,16 +1,11 @@
 import { Button } from "./ui/button";
 import { buttonVariants } from "./ui/button";
 import background from "../assets/background_header04.jpg";
-import { MorphingText } from "./animate-ui/primitives/texts/morphing";
+import { TypingTextDemo } from "./ui/typingText";
 
 
 export const Hero = () => {
-  const texts = [
-    "",
-    "La fraîcheur naturelle de Madagascar.",
-    "Hydratez vos journées, savourez l’instant",
-    "Pure à chaque gorgée, fraîche à chaque envie.",
-  ];
+
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -22,14 +17,15 @@ export const Hero = () => {
       </div>
 
       <div className="container relative z-10 grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
-        <div className="text-center lg:text-start space-y-6">
+        <div className="text-center lg:text-start space-y-6 ">
           <main className="text-5xl md:text-6xl font-bold text-white tracking-tight">
             <h1 className="inline">
-              <MorphingText
-                key={`${true}-${2}`}
-                className="text-5xl font-semibold text-center"
-                text={texts}
-                loop={true}
+              <TypingTextDemo
+                delay={2000}
+                holdDelay={500}
+                loop={false}
+                cursor={true}
+                text="La fraîcheur naturelle de Madagascar."
               />
             </h1>
           </main>
@@ -42,7 +38,7 @@ export const Hero = () => {
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
-            <Button className="w-full md:w-1/3 bg-blue-500 hover:bg-blue-800" variant={"default"}>
+            <Button className="w-full md:w-1/3 hover:bg-blue-500 bg-blue-800" variant={"default"}>
               Commander
             </Button>
 
