@@ -1,57 +1,64 @@
 import { Button } from "./ui/button";
 import { buttonVariants } from "./ui/button";
-import { HeroCards } from "./HeroCards";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import background from "../assets/background_header04.jpg";
+import { MorphingText } from "./animate-ui/primitives/texts/morphing";
+
 
 export const Hero = () => {
+  const texts = [
+    "",
+    "La fraîcheur naturelle de Madagascar.",
+    "Hydratez vos journées, savourez l’instant",
+    "Pure à chaque gorgée, fraîche à chaque envie.",
+  ];
+
   return (
-    <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
-      <div className="text-center lg:text-start space-y-6">
-        <main className="text-5xl md:text-6xl font-bold">
-          <h1 className="inline">
-            <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text">
-              Shadcn
-            </span>{" "}
-            landing page
-          </h1>{" "}
-          for{" "}
-          <h2 className="inline">
-            <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text">
-              React
-            </span>{" "}
-            developers
-          </h2>
-        </main>
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      <div
+        className="absolute inset-0 z-0 bg-center bg-no-repeat md:bg-cover"
+        style={{ backgroundImage: `url(${background})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+      </div>
 
-        <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          Build your React landing page effortlessly with the required sections
-          to your project.
-        </p>
+      <div className="container relative z-10 grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
+        <div className="text-center lg:text-start space-y-6">
+          <main className="text-5xl md:text-6xl font-bold text-white tracking-tight">
+            <h1 className="inline">
+              <MorphingText
+                key={`${true}-${2}`}
+                className="text-5xl font-semibold text-center"
+                text={texts}
+                loop={true}
+              />
+            </h1>
+          </main>
 
-        <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <p className="text-xl text-slate-200 md:w-10/12 mx-auto lg:mx-0 font-light">
+            Sainto est une marque malgache d'eau de source naturelle
+            embouteillée par la société Mado, dont la source se trouve sur la
+            montagne d'Iharanandriana, à Morarano (au PK 38 sur la route
+            d'Antsirabe).
+          </p>
 
-          <a
-            rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-            target="_blank"
-            className={`w-full md:w-1/3 ${buttonVariants({
-              variant: "outline",
-            })}`}
-          >
-            Github Repository
-            <GitHubLogoIcon className="ml-2 w-5 h-5" />
-          </a>
+          <div className="space-y-4 md:space-y-0 md:space-x-4">
+            <Button className="w-full md:w-1/3 bg-blue-500 hover:bg-blue-800" variant={"default"}>
+              Commander
+            </Button>
+
+            <a
+              rel="noreferrer noopener"
+              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+              target="_blank"
+              className={`w-full md:w-1/3 ${buttonVariants({
+                variant: "outline",
+              })}`}
+            >
+              Nos Produits
+            </a>
+          </div>
         </div>
       </div>
-
-      {/* Hero cards sections */}
-      <div className="z-10">
-        <HeroCards />
-      </div>
-
-      {/* Shadow effect */}
-      <div className="shadow"></div>
     </section>
   );
 };
