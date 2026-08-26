@@ -18,6 +18,10 @@ import { ModeToggle } from "./mode-toggle";
 import logo from "../assets/logo_sainto_01.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
+import { Plus } from "./animate-ui/icons/plus";
+import { AnimateIcon } from "./animate-ui/icons/icon";
+import { IconButton } from "./animate-ui/components/buttons/icon";
+import { Button } from "./animate-ui/components/buttons/button";
 
 interface RouteProps {
   href: string;
@@ -119,6 +123,7 @@ export const Navbar = () => {
                     <FontAwesomeIcon className="mr-2" icon={faRobot} />
                     Assistant AI
                   </a>
+                  <Button className="hover:bg-blue-800 bg-blue-500">Voir le pannier</Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -154,6 +159,11 @@ export const Navbar = () => {
             </a>
 
             <ModeToggle />
+            <IconButton className="bg-blue-500 hover:bg-blue-800">
+              <AnimateIcon>
+                <Plus />
+              </AnimateIcon>
+            </IconButton>
           </div>
         </NavigationMenuList>
       </NavigationMenu>

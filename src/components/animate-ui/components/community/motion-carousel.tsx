@@ -142,7 +142,7 @@ function MotionCarousel(props: PropType) {
       <div className="flex justify-between">
         <Button
           size="icon"
-          className="bg-blue-800 hover:bg-blue-500"
+          className="bg-blue-500 hover:bg-blue-800"
           onClick={onPrev}
           disabled={prevDisabled}
         >
@@ -162,7 +162,7 @@ function MotionCarousel(props: PropType) {
 
         <Button
           size="icon"
-          className="bg-blue-800 hover:bg-blue-500"
+          className="bg-blue-500 hover:bg-blue-800"
           onClick={onNext}
           disabled={nextDisabled}
         >

@@ -49,20 +49,17 @@ function App() {
         <Services />
       </FadeInSection>
       <FadeInSection>
-        <Cta />
-      </FadeInSection>
-      <FadeInSection>
         <Testimonials />
       </FadeInSection>
-      <FadeInSection>
+      {/*<FadeInSection>
         <Team />
-      </FadeInSection>
-      <FadeInSection>
+      </FadeInSection>*/}
+      {/*<FadeInSection>
         <Pricing />
-      </FadeInSection>
-      <FadeInSection>
+      </FadeInSection>*/}
+      {/*<FadeInSection>
         <Newsletter />
-      </FadeInSection>
+      </FadeInSection>*/}
       <FadeInSection>
         <FAQ />
       </FadeInSection>

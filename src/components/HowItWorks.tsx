@@ -32,7 +32,7 @@ export const HowItWorks = () => {
     <section id="howItWorks" className="container text-center py-24 sm:py-32">
       <h2 className="text-3xl md:text-4xl font-bold ">
         Nos{" "}
-        <span className="bg-gradient-to-b bg-blue-800 to-primary text-transparent bg-clip-text">
+        <span className="bg-gradient-to-b bg-blue-500 to-primary text-transparent bg-clip-text">
           Produits{" "}
         </span>
         les plus noté

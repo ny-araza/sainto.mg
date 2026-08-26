@@ -13,60 +13,51 @@ interface FAQProps {
 
 const FAQList: FAQProps[] = [
   {
-    question: "Is this template free?",
-    answer: "Yes. It is a free ChadcnUI template.",
+    question: "La livraison se fait comment ?",
+    answer: "La livraison est livré 24h après la commande.",
     value: "item-1",
   },
   {
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit?",
+    question: "Et la commande ?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
+      "Pour qu'une commande soit validé il doit être commander au minimum 24h à l'avance pour une livraison le jour j",
     value: "item-2",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet  Consectetur natus dolores minus quibusdam?",
+    question: "Quelles sont les differents moyens de commande chez vous ?",
     answer:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis necessitatibus maxime quis ipsa vitae cumque quo?",
+      "Vous pouvez commander via: commercial@gmail.com, whatsapp: 034 xx xxx xx directement. Mais aussi via notre site en cliquant sur les produits que vous voulez qui est ajouter automatiquement dans votre pannier toute en haut ,puis il ne vous reste plus qu'a le valider. Une fois valider l'email est directement envoyer vers nos commerciaux",
     value: "item-3",
   },
   {
-    question: "Lorem ipsum dolor sit amet, consectetur adipisicing elit?",
-    answer: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
-    value: "item-4",
+    question:
+      "Peut on aller voir et acheter depuis chez vous directement ?",
+    answer:
+      "Oui, notre adrèsse est dans le pied de page",
+    value: "item-5",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus?",
+    question: "A quoi sert l'assistant AI dans le site ?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
-    value: "item-5",
+      "Le but de l'assistant est de repondre 24h/7 vos demande que ce soit information appropos de nous ou commande. Vous pouvez poser les question que vous voulez appropos de nous tant que c'est dans le cadre << professionnel >> à l'assistant",
+    value: "item-4",
   },
 ];
 
 export const FAQ = () => {
   return (
-    <section
-      id="faq"
-      className="container py-24 sm:py-32"
-    >
+    <section id="faq" className="container py-24 sm:py-32">
       <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        Frequently Asked{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Questions
+        Les{" "}
+        <span className="bg-blue-500 to-primary text-transparent bg-clip-text">
+          Questions{" "}
         </span>
+        Les plus frequements posé
       </h2>
 
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full AccordionRoot"
-      >
+      <Accordion type="single" collapsible className="w-full AccordionRoot">
         {FAQList.map(({ question, answer, value }: FAQProps) => (
-          <AccordionItem
-            key={value}
-            value={value}
-          >
+          <AccordionItem key={value} value={value}>
             <AccordionTrigger className="text-left">
               {question}
             </AccordionTrigger>
@@ -77,13 +68,21 @@ export const FAQ = () => {
       </Accordion>
 
       <h3 className="font-medium mt-4">
-        Still have questions?{" "}
+        Vous avez encore d'autre question? Demander a notre{" "}
         <a
           rel="noreferrer noopener"
           href="#"
-          className="text-primary transition-all border-primary hover:border-b-2"
+          className="text-blue-500 transition-all border-primary hover:border-b-2"
         >
-          Contact us
+          Assistant virtuel{" "}
+        </a>
+        ou {" "}
+        <a
+          rel="noreferrer noopener"
+          href="#"
+          className="text-blue-500 transition-all border-primary hover:border-b-2"
+        >
+          Contacter directement ici
         </a>
       </h3>
     </section>

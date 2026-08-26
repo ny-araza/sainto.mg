@@ -1,81 +1,5 @@
-// import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-// import { MagnifierIcon, WalletIcon, ChartIcon } from "./Icons";
-// import cubeLeg from "../assets/cube-leg.png";
-
-// interface ServiceProps {
-//   title: string;
-//   description: string;
-//   icon: JSX.Element;
-// }
-
-// const serviceList: ServiceProps[] = [
-//   {
-//     title: "Code Collaboration",
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-//     icon: <ChartIcon />,
-//   },
-//   {
-//     title: "Project Management",
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-//     icon: <WalletIcon />,
-//   },
-//   {
-//     title: "Task Automation",
-//     description:
-//       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-//     icon: <MagnifierIcon />,
-//   },
-// ];
-
-// export const Services = () => {
-//   return (
-//     <section className="container py-24 sm:py-32">
-//       <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center">
-//         <div>
-//           <h2 className="text-3xl md:text-4xl font-bold">
-//             <span className="bg-gradient-to-b text-blue-800 to-primary text-transparent bg-clip-text">
-//               Service{" "}
-//             </span>
-//             Client
-//           </h2>
-
-//           <p className="text-muted-foreground text-xl mt-4 mb-8 ">
-//             Sainto Madagascar : le sourire en magasin, le soin jusqu’à votre
-//             porte
-//           </p>
-
-//           <div className="flex flex-col gap-8">
-//             {serviceList.map(({ icon, title, description }: ServiceProps) => (
-//               <Card key={title}>
-//                 <CardHeader className="space-y-1 flex md:flex-row justify-start items-start gap-4">
-//                   <div className="mt-1 bg-primary/20 p-1 rounded-2xl">
-//                     {icon}
-//                   </div>
-//                   <div>
-//                     <CardTitle>{title}</CardTitle>
-//                     <CardDescription className="text-md mt-2">
-//                       {description}
-//                     </CardDescription>
-//                   </div>
-//                 </CardHeader>
-//               </Card>
-//             ))}
-//           </div>
-//         </div>
-
-//         <img
-//           src={cubeLeg}
-//           className="w-[300px] md:w-[500px] lg:w-[600px] object-contain"
-//           alt="About services"
-//         />
-//       </div>
-//     </section>
-//   );
-// };
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import cubeLeg from "../assets/cube-leg.png";
+import cubeLeg from "../assets/employer_epanoui_01.png";
 import collaborationImg from "../assets/collaboration.png";
 import clientImg from "../assets/client_bien_accuilli.jpg";
 import deliveryImg from "../assets/good_delivery.jpg";
@@ -113,7 +37,7 @@ export const Services = () => {
       <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="bg-gradient-to-b text-blue-800 to-primary text-transparent bg-clip-text">
+            <span className="bg-gradient-to-b text-blue-500 to-primary text-transparent bg-clip-text">
               Service{" "}
             </span>
             Client
@@ -132,7 +56,7 @@ export const Services = () => {
                     className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-2xl shrink-0 border border-primary/20"
                   />
                   <div>
-                    <CardTitle className="text-blue-800">{title}</CardTitle>
+                    <CardTitle className="text-blue-500">{title}</CardTitle>
                     <CardDescription className="text-md mt-2">
                       {description}
                     </CardDescription>
