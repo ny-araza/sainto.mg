@@ -38,6 +38,16 @@ export interface ProductRating {
   rate: number;
 }
 
+export async function getPubs(): Promise<Pub[]> {
+  const response = await fetch(`${API_URL}/pubs/`);
+
+  if (!response.ok) {
+    throw new Error("Impossible de récupérer les publicités");
+  }
+
+  return response.json();
+}
+
 export async function getProducts(): Promise<ProduitMado[]> {
   const response = await fetch(`${API_URL}/produits/`);
 
@@ -51,9 +61,8 @@ export async function getProducts(): Promise<ProduitMado[]> {
 }
 
 export async function createClient(
-  email: string,
+  email: string | null,
   message?: string,
-  rating?: number,
 ): Promise<Client> {
   const response = await fetch(`${API_URL}/clients/`, {
     method: "POST",
@@ -65,17 +74,16 @@ export async function createClient(
     body: JSON.stringify({
       email,
       message: message ?? null,
-      rating: rating ?? null,
     }),
   });
 
-  if (!response.ok) {
-    const error = await response.json();
+  const data = await response.json();
 
-    throw new Error(error?.message || "Impossible de créer le client");
+  if (!response.ok) {
+    throw new Error(data?.message || "Impossible de créer le client");
   }
 
-  return response.json();
+  return data.data ?? data;
 }
 
 export async function likeProduct(
@@ -84,11 +92,9 @@ export async function likeProduct(
 ): Promise<ProduitLike> {
   const response = await fetch(`${API_URL}/likes/`, {
     method: "POST",
-
     headers: {
       "Content-Type": "application/json",
     },
-
     body: JSON.stringify({
       client: clientId,
       produit: productId,
@@ -101,7 +107,7 @@ export async function likeProduct(
     throw new Error(data?.message || "Impossible de liker le produit");
   }
 
-  return data.data;
+  return data.data ?? data;
 }
 
 export async function unlikeProduct(likeId: number): Promise<void> {
@@ -154,7 +160,7 @@ export async function sendFeedback(
     throw new Error("La note doit être comprise entre 1 et 5");
   }
 
-  return createClient(email, message, rating);
+  return createClient(email, message);
 }
 
 export async function addProductToCart(
@@ -176,12 +182,21 @@ export async function addProductToCart(
   };
 }
 
-export async function getPubs(): Promise<Pub[]> {
-  const response = await fetch(`${API_URL}/pubs/`);
+export type CartItem = {
+  id: number;
+  quantite: number;
+};
 
-  if (!response.ok) {
-    throw new Error("Impossible de récupérer les publicités");
+export async function validateCartLikes(clientId: number, panier: CartItem[]) {
+  const likes: ProduitLike[] = [];
+
+  for (const ligne of panier) {
+    for (let i = 0; i < ligne.quantite; i++) {
+      const like = await likeProduct(clientId, ligne.id);
+
+      likes.push(like);
+    }
   }
 
-  return response.json();
+  return likes;
 }
