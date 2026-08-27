@@ -17,7 +17,7 @@ import { updateClient } from "@/services/clientServices";
 function formatAriary(montant: number) {
   return `${montant.toLocaleString("fr-FR")} Ar`;
 }
-
+const API_URL = import.meta.env.VITE_API_URL;
 export const MyChart = () => {
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -87,27 +87,24 @@ export const MyChart = () => {
    */
   const validerDevis = async () => {
     try {
-      console.log("here")
+      console.log("here");
       setLoading(true);
       const client = await createClient(email, "");
       await validateCartLikes(client.id, panier);
-      const response = await fetch(
-        "http://localhost:8000/api/send-devis-email/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            nom,
-            email,
-            telephone,
-            adresse,
-            panier,
-            devis,
-          }),
+      const response = await fetch(`${API_URL}/send-devis-email/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          nom,
+          email,
+          telephone,
+          adresse,
+          panier,
+          devis,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error("Erreur lors de l'envoi de l'email");
