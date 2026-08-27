@@ -1,10 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { faCartShopping, faStar, faList } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartShopping,
+  faStar,
+  faList,
+  faBox,
+  faBottleWater,
+  faWeightHanging,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { easeOut, motion } from "motion/react";
 import * as React from "react";
+import { useCart } from "@/context/CartContext";
 
 export interface FlipCardData {
   id: number;
@@ -12,7 +20,9 @@ export interface FlipCardData {
   price: number;
   path: string;
   rate: number;
-  ingredients?: string;
+  nbUniteInpack?: number;
+  isUnite?: boolean;
+  poid: number;
 }
 interface FlipCardProps {
   data: FlipCardData;
@@ -21,6 +31,7 @@ interface FlipCardProps {
 export function FlipCard({ data }: FlipCardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [isTouchDevice, setIsTouchDevice] = React.useState(false);
+  const { ajouterAuPanier } = useCart();
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: none), (pointer: coarse)");
@@ -68,11 +79,11 @@ export function FlipCard({ data }: FlipCardProps) {
         relative
         mx-auto
         mt-2
-        h-[320px]
+        h-[400px]
         w-[85vw]
         max-w-[240px]
         cursor-pointer
-        md:h-[320px]
+        md:h-[350px]
         md:w-[85vw]
         [perspective:900px]
       "
@@ -133,6 +144,32 @@ export function FlipCard({ data }: FlipCardProps) {
             >
               {formatPrice(data.price)} Ar
             </div>
+            {/* Badge poids */}
+            <div
+              className="
+                 absolute
+                 right-3
+                 top-3
+                 flex
+                 items-center
+                 gap-2
+                 rounded-full
+                 border
+                 border-white/20
+                 bg-background/30
+                 px-4
+                 py-2
+                 text-sm
+                 font-bold
+                 text-foreground
+                 shadow-lg
+                 backdrop-blur-md
+               "
+              title="Poids total du produit"
+            >
+              <FontAwesomeIcon icon={faWeightHanging} />
+              {data.poid} kg
+            </div>
           </div>
 
           {/* Informations */}
@@ -164,7 +201,8 @@ export function FlipCard({ data }: FlipCardProps) {
             <h3 className="text-lg font-bold text-foreground">{data.name}</h3>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              Découvrez les détails du produit
+              {data.isUnite && "Se vend par unité"}
+              {!data.isUnite && "Se vend par pack"}
             </p>
           </div>
 
@@ -188,17 +226,16 @@ export function FlipCard({ data }: FlipCardProps) {
           </div>
 
           {/* Section ingrédients */}
-          <div className="mt-5 rounded-lg border border-foreground/10 bg-background/30 p-3 backdrop-blur-sm">
-            <div className="mb-2 flex items-center gap-2">
-              <FontAwesomeIcon icon={faList} className="text-blue-500" />
-
-              <h4 className="text-sm font-semibold">Ingrédients</h4>
+          {!data.isUnite && (
+            <div className="mt-5 rounded-lg border border-foreground/10 bg-background/30 p-3 backdrop-blur-sm">
+              <div className="mb-2 flex items-center gap-2">
+                <FontAwesomeIcon icon={faBox} className="text-blue-500" />
+                {`1 pack = ${data.nbUniteInpack || 0}`}
+                <FontAwesomeIcon icon={faBottleWater} />
+                <h4 className="text-sm font-semibold"></h4>
+              </div>
             </div>
-
-            <p className="text-xs leading-relaxed text-muted-foreground">
-              {data.ingredients || "Informations non disponibles."}
-            </p>
-          </div>
+          )}
 
           {/* Actions */}
           <div className="mt-auto flex items-center justify-between gap-2 pt-4">
@@ -225,15 +262,14 @@ export function FlipCard({ data }: FlipCardProps) {
 
             {/* Ajouter au panier */}
             <Button
-              className="flex-1 bg-blue-500 "
+              className="flex-1 bg-blue-500 hover:bg-blue-800"
               onClick={(e) => {
                 e.stopPropagation();
-
-                // ajouterAuPanier(data);
+                ajouterAuPanier(data);
               }}
+              title="Ajouter au panier"
             >
               <FontAwesomeIcon icon={faCartShopping} className="mr-2" />
-              Ajouter
             </Button>
           </div>
         </div>

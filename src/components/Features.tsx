@@ -1,19 +1,5 @@
 import { Badge } from "./ui/badge";
-import TiltDemo from "./ui/tiltDemo";
-import { Button } from "./animate-ui/components/buttons/button";
-import { useCart } from "@/context/CartContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FlipCard, FlipCardData } from "./animate-ui/components/community/flip-card";
-import userImg from "../assets/user_03.png";
-
-type ProduitProps = {
-  id: number;
-  name: string;
-  price: number;
-  rate: number;
-  path: string;
-};
 
 const featureList: string[] = [
   "Madagascar",
@@ -23,7 +9,6 @@ const featureList: string[] = [
 ];
 
 export const Features = () => {
-  const { ajouterAuPanier } = useCart();
   const listeArticle: FlipCardData[] = [
     {
       id: 1,
@@ -31,6 +16,8 @@ export const Features = () => {
       price: 2291.66,
       rate: 4.8,
       path: "#",
+      nbUniteInpack: 6,
+      poid: 9
     },
     {
       id: 2,
@@ -38,6 +25,8 @@ export const Features = () => {
       price: 1388.33,
       rate: 4.7,
       path: "#",
+      nbUniteInpack: 6,
+      poid: 6
     },
     {
       id: 3,
@@ -45,6 +34,8 @@ export const Features = () => {
       price: 1180,
       rate: 4.6,
       path: "#",
+      nbUniteInpack: 8,
+      poid: 4
     },
     {
       id: 4,
@@ -52,6 +43,8 @@ export const Features = () => {
       price: 4166.66,
       rate: 4.9,
       path: "#",
+      isUnite: true,
+      poid: 5
     },
     {
       id: 5,
@@ -59,6 +52,8 @@ export const Features = () => {
       price: 73333.33,
       rate: 4.5,
       path: "#",
+      isUnite: true,
+      poid: 20
     },
     {
       id: 6,
@@ -66,6 +61,8 @@ export const Features = () => {
       price: 30000,
       rate: 4.8,
       path: "#",
+      isUnite: true,
+      poid: 9
     },
     {
       id: 7,
@@ -73,6 +70,8 @@ export const Features = () => {
       price: 6805,
       rate: 4.7,
       path: "#",
+      nbUniteInpack: 6,
+      poid: 9
     },
     {
       id: 8,
@@ -80,6 +79,8 @@ export const Features = () => {
       price: 6805,
       rate: 4.9,
       path: "#",
+      nbUniteInpack: 6,
+      poid: 9
     },
     {
       id: 9,
@@ -87,6 +88,8 @@ export const Features = () => {
       price: 6805,
       rate: 4.6,
       path: "#",
+      nbUniteInpack: 6,
+      poid: 9
     },
     {
       id: 10,
@@ -94,6 +97,8 @@ export const Features = () => {
       price: 2916.66,
       rate: 4.5,
       path: "#",
+      nbUniteInpack: 8,
+      poid: 4
     },
     {
       id: 11,
@@ -101,6 +106,8 @@ export const Features = () => {
       price: 2916.66,
       path: "#",
       rate: 4.8,
+      nbUniteInpack: 8,
+      poid: 4
     },
     {
       id: 12,
@@ -108,13 +115,15 @@ export const Features = () => {
       price: 2916.66,
       rate: 4.7,
       path: "#",
+      nbUniteInpack: 8,
+      poid: 4
     },
   ];
   return (
     <section id="features" className="container py-24 sm:py-32 space-y-8">
       <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
         Tous{" "}
-        <span className=" text-blue-500 to-primary bg-clip-text">
+        <span className=" text-blue-500  to-primary bg-clip-text">
           Nos produits
         </span>
       </h2>

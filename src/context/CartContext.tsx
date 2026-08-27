@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from "react";
 
-export interface Produit {
+export interface FlipCardData {
   id: number;
   name: string;
   price: number;
@@ -14,12 +14,12 @@ export interface Produit {
   path?: string;
 }
 
-export interface LigneCart extends Produit {
+export interface FlipCardData extends Produit {
   quantite: number;
 }
 
 interface CartContextValue {
-  panier: LigneCart[];
+  panier: FlipCardData[];
   ajouterAuPanier: (produit: Produit) => void;
   modifierQuantite: (id: number, delta: number) => void;
   definirQuantite: (id: number, valeur: number) => void;
@@ -35,7 +35,7 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [panier, setPanier] = useState<LigneCart[]>([]);
+  const [panier, setPanier] = useState<FlipCardData[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const ajouterAuPanier = (produit: Produit) => {
