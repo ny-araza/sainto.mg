@@ -3,7 +3,9 @@ import TiltDemo from "./ui/tiltDemo";
 import { Button } from "./animate-ui/components/buttons/button";
 import { useCart } from "@/context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FlipCard } from "./animate-ui/components/community/flip-card";
+import userImg from "../assets/user_03.png";
 
 type ProduitProps = {
   id: number;
@@ -108,7 +110,19 @@ export const Features = () => {
       path: "#",
     },
   ];
-
+  const data = {
+    name: 'Animate UI',
+    username: 'animate_ui',
+    image:
+      userImg,
+    bio: 'A fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, and Motion.',
+    stats: { following: 200, followers: 2900, posts: 120 },
+    socialLinks: {
+      linkedin: 'https://linkedin.com',
+      github: 'https://github.com',
+      twitter: 'https://twitter.com',
+    },
+  };
   return (
     <section id="features" className="container py-24 sm:py-32 space-y-8">
       <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
@@ -131,7 +145,7 @@ export const Features = () => {
       <div className="grid grid-cols-1 gap-6 place-items-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {listeArticle.map((item) => (
           <div key={item.id} className="flex flex-col items-center gap-2">
-            <TiltDemo
+            {/*<TiltDemo
               maxTilt={4}
               perspective={200}
               image={item.path}
@@ -144,7 +158,8 @@ export const Features = () => {
               title="Ajouter au panier"
             >
               <FontAwesomeIcon icon={faPlusCircle} />
-            </Button>
+            </Button>*/}
+            <FlipCard data={data} />
           </div>
         ))}
       </div>
