@@ -4,10 +4,10 @@ import background from "../assets/background_header05.jpg";
 import { TypingTextDemo } from "./ui/typingText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRobot } from "@fortawesome/free-solid-svg-icons";
-
+import { useAssistant } from "@/context/AssistantContext";
 
 export const Hero = () => {
-
+  const { ouvrirAssistant } = useAssistant();
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -40,7 +40,11 @@ export const Hero = () => {
           </p>
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
-            <Button className="w-full md:w-1/3 hover:bg-blue-500 bg-blue-800" variant={"default"}>
+            <Button
+              onClick={ouvrirAssistant}
+              className="w-full md:w-1/3 hover:bg-blue-500 bg-blue-800"
+              variant={"default"}
+            >
               <FontAwesomeIcon className="mr-2" icon={faRobot} />
               Assistant virtuel
             </Button>
