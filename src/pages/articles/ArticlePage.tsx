@@ -1,4 +1,3 @@
-import { Features } from "@/components/Features";
 
 export default function ArticlePage() {
   return (
@@ -11,7 +10,6 @@ export default function ArticlePage() {
           Découvrez l&apos;ensemble de notre gamme de produits Sainto.
         </p>
       </div>
-      <Features />
     </main>
   );
 }
