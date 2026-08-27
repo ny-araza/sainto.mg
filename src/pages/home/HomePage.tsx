@@ -49,14 +49,14 @@ export default function HomePage() {
         <Testimonials />
       </FadeInSection>
       {/*<FadeInSection>
-    <Team />
-  </FadeInSection>*/}
+        <Team />
+        </FadeInSection>*/}
       {/*<FadeInSection>
-    <Pricing />
-  </FadeInSection>*/}
+        <Pricing />
+      </FadeInSection>*/}
       {/*<FadeInSection>
-    <Newsletter />
-  </FadeInSection>*/}
+        <Newsletter />
+        </FadeInSection>*/}
       <FadeInSection>
         <FAQ />
       </FadeInSection>

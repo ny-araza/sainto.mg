@@ -48,7 +48,7 @@ const routeList: RouteProps[] = [
 
 export const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const { ouvrirPanier, fermerPanier } = useCart();
+  const { ouvrirPanier } = useCart();
   return (
     <header
       className="
@@ -123,8 +123,11 @@ export const Navbar = () => {
                     <FontAwesomeIcon className="mr-2" icon={faRobot} />
                     Assistant AI
                   </a>
-                  <Button className="hover:bg-blue-800 bg-blue-500">
-                    Voir le pannier
+                  <Button
+                    className="hover:bg-blue-800 bg-blue-500"
+                    onClick={ouvrirPanier}
+                  >
+                    <FontAwesomeIcon icon={faCartShopping} />
                   </Button>
                 </nav>
               </SheetContent>
@@ -154,7 +157,10 @@ export const Navbar = () => {
             </Button>
 
             <ModeToggle />
-            <Button className="bg-blue-500 hover:bg-blue-800" onClick={ouvrirPanier}>
+            <Button
+              className="bg-blue-500 hover:bg-blue-800"
+              onClick={ouvrirPanier}
+            >
               <FontAwesomeIcon icon={faCartShopping} />
             </Button>
           </div>
