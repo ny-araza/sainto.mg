@@ -13,33 +13,33 @@ interface FAQProps {
 
 const FAQList: FAQProps[] = [
   {
-    question: "La livraison se fait comment ?",
-    answer: "La livraison est livré 24h après la commande.",
+    question: "Comment se déroule la livraison ?",
+    answer:
+      "Les livraisons sont généralement effectuées dans un délai de 24 heures après la confirmation de votre commande, selon la disponibilité des produits et la zone de livraison.",
     value: "item-1",
   },
   {
-    question: "Et la commande ?",
+    question: "Quel est le délai à prévoir pour passer une commande ?",
     answer:
-      "Pour qu'une commande soit validé il doit être commander au minimum 24h à l'avance pour une livraison le jour j",
+      "Afin de garantir la disponibilité des produits et une bonne organisation de la livraison, nous vous recommandons de passer votre commande au moins 24 heures à l'avance pour une livraison à la date souhaitée.",
     value: "item-2",
   },
   {
-    question: "Quelles sont les differents moyens de commande chez vous ?",
+    question: "Quels sont les différents moyens de passer commande ?",
     answer:
-      "Vous pouvez commander via: commercial@gmail.com, whatsapp: 034 xx xxx xx directement. Mais aussi via notre site en cliquant sur les produits que vous voulez qui est ajouter automatiquement dans votre pannier toute en haut ,puis il ne vous reste plus qu'a le valider. Une fois valider l'email est directement envoyer vers nos commerciaux",
+      "Vous pouvez passer votre commande directement par email à l'adresse madogamo@gmail.com ou par WhatsApp au 020 22 417 17. Vous pouvez également commander directement depuis notre site : sélectionnez les produits de votre choix, ajoutez-les à votre panier, puis validez votre demande. Celle-ci sera ensuite transmise à notre équipe commerciale pour traitement.",
     value: "item-3",
   },
   {
-    question:
-      "Peut on aller voir et acheter depuis chez vous directement ?",
+    question: "Est-il possible d'acheter directement sur place ?",
     answer:
-      "Oui, notre adrèsse est dans le pied de page",
+      "Oui. Vous avez la possibilité de vous rendre directement chez nous pour découvrir et acheter nos produits. Vous trouverez notre adresse ainsi que nos coordonnées dans le pied de page du site.",
     value: "item-5",
   },
   {
-    question: "A quoi sert l'assistant AI dans le site ?",
+    question: "À quoi sert l'assistant IA disponible sur le site ?",
     answer:
-      "Le but de l'assistant est de repondre 24h/7 vos demande que ce soit information appropos de nous ou commande. Vous pouvez poser les question que vous voulez appropos de nous tant que c'est dans le cadre << professionnel >> à l'assistant",
+      "Notre assistant IA est disponible 24h/24 et 7j/7 pour répondre à vos questions concernant nos produits, nos services, les modalités de commande et toute autre information relative à notre activité. Il peut également vous accompagner dans vos démarches et vous orienter vers les informations dont vous avez besoin.",
     value: "item-4",
   },
 ];
@@ -76,7 +76,7 @@ export const FAQ = () => {
         >
           Assistant virtuel{" "}
         </a>
-        ou {" "}
+        ou{" "}
         <a
           rel="noreferrer noopener"
           href="#"
