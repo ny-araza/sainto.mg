@@ -113,10 +113,12 @@ export function FlipCard({ data }: FlipCardProps) {
             border-2 border-foreground/20
             bg-background
             [backface-visibility:hidden]
+            w-full
+            item
           "
         >
           {/* Image */}
-          <div className="relative h-[70%] w-full">
+          <div className="relative h-full w-full">
             <img
               src={data.path}
               alt={data.name}
@@ -174,7 +176,6 @@ export function FlipCard({ data }: FlipCardProps) {
 
           {/* Informations */}
           <div className="flex h-[30%] flex-col items-center justify-center px-3 text-center">
-            <h2 className="text-lg text-blue-500 font-bold">{data.name}</h2>
 
             <p className="mt-2 text-xs text-muted-foreground md:hidden">
               Touchez pour voir les détails
