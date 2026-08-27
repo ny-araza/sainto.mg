@@ -4,7 +4,7 @@ import { Button } from "./animate-ui/components/buttons/button";
 import { useCart } from "@/context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { FlipCard } from "./animate-ui/components/community/flip-card";
+import { FlipCard, FlipCardData } from "./animate-ui/components/community/flip-card";
 import userImg from "../assets/user_03.png";
 
 type ProduitProps = {
@@ -24,7 +24,7 @@ const featureList: string[] = [
 
 export const Features = () => {
   const { ajouterAuPanier } = useCart();
-  const listeArticle: ProduitProps[] = [
+  const listeArticle: FlipCardData[] = [
     {
       id: 1,
       name: "SAINTO 1.5L",
@@ -99,8 +99,8 @@ export const Features = () => {
       id: 11,
       name: "ICE TEA pêche 0.5L",
       price: 2916.66,
-      rate: 4.8,
       path: "#",
+      rate: 4.8,
     },
     {
       id: 12,
@@ -110,19 +110,6 @@ export const Features = () => {
       path: "#",
     },
   ];
-  const data = {
-    name: 'Animate UI',
-    username: 'animate_ui',
-    image:
-      userImg,
-    bio: 'A fully animated, open-source component distribution built with React, TypeScript, Tailwind CSS, and Motion.',
-    stats: { following: 200, followers: 2900, posts: 120 },
-    socialLinks: {
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      twitter: 'https://twitter.com',
-    },
-  };
   return (
     <section id="features" className="container py-24 sm:py-32 space-y-8">
       <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
@@ -159,7 +146,7 @@ export const Features = () => {
             >
               <FontAwesomeIcon icon={faPlusCircle} />
             </Button>*/}
-            <FlipCard data={data} />
+            <FlipCard data={item} />
           </div>
         ))}
       </div>

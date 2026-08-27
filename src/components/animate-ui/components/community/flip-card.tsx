@@ -1,9 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { faCartShopping, faStar, faList } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { easeOut, motion } from "motion/react";
 import * as React from "react";
-import { Github, Linkedin, Twitter } from "lucide-react";
+
+export interface FlipCardData {
+  id: number;
+  name: string;
+  price: number;
+  path: string;
+  rate: number;
+  ingredients?: string;
+}
+interface FlipCardProps {
+  data: FlipCardData;
+}
 
 export function FlipCard({ data }: FlipCardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
@@ -43,19 +56,25 @@ export function FlipCard({ data }: FlipCardProps) {
     }
   };
 
+  const formatPrice = (price: number): string => {
+    return new Intl.NumberFormat("fr-FR", {
+      maximumFractionDigits: 2,
+    }).format(price);
+  };
+
   return (
     <div
       className="
         relative
         mx-auto
         mt-2
-        h-[280px]
+        h-[320px]
         w-[85vw]
         max-w-[240px]
         cursor-pointer
-        md:h-80
-        md:w-60
-        [perspective:1000px]
+        md:h-[320px]
+        md:w-[85vw]
+        [perspective:900px]
       "
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
@@ -78,28 +97,52 @@ export function FlipCard({ data }: FlipCardProps) {
         <div
           className="
             absolute inset-0
-            flex h-full w-full
-            flex-col items-center justify-center
-            rounded-md border-2 border-foreground/20
-            bg-gradient-to-br from-muted via-background to-muted
-            px-4 py-6 text-center
+            overflow-hidden
+            rounded-md
+            border-2 border-foreground/20
+            bg-background
             [backface-visibility:hidden]
           "
         >
-          <img
-            src={data.image}
-            alt={data.name}
-            className="mb-4 size-24 rounded-full border-2 object-cover"
-          />
+          {/* Image */}
+          <div className="relative h-[70%] w-full">
+            <img
+              src={data.path}
+              alt={data.name}
+              className="h-full w-full object-cover"
+            />
 
-          <h2 className="text-lg font-bold">{data.name}</h2>
+            {/* Badge prix */}
+            <div
+              className="
+                absolute
+                left-3
+                top-3
+                rounded-full
+                border
+                border-white/20
+                bg-background/30
+                px-4
+                py-2
+                text-sm
+                font-bold
+                text-foreground
+                shadow-lg
+                backdrop-blur-md
+              "
+            >
+              {formatPrice(data.price)} Ar
+            </div>
+          </div>
 
-          <p className="text-sm text-muted-foreground">@{data.username}</p>
+          {/* Informations */}
+          <div className="flex h-[30%] flex-col items-center justify-center px-3 text-center">
+            <h2 className="text-lg text-blue-500 font-bold">{data.name}</h2>
 
-          {/* Indication mobile */}
-          <p className="mt-4 text-xs text-muted-foreground md:hidden">
-            Touchez la carte pour voir plus d'informations
-          </p>
+            <p className="mt-2 text-xs text-muted-foreground md:hidden">
+              Touchez pour voir les détails
+            </p>
+          </div>
         </div>
 
         {/* BACK */}
@@ -107,93 +150,92 @@ export function FlipCard({ data }: FlipCardProps) {
           className="
             absolute inset-0
             flex h-full w-full
-            flex-col items-center justify-between
-            gap-y-4
-            rounded-md border-2 border-foreground/20
+            flex-col
+            rounded-md
+            border-2 border-foreground/20
             bg-gradient-to-tr from-muted via-background to-muted
-            px-4 py-6
+            p-5
             [backface-visibility:hidden]
             [transform:rotateY(180deg)]
           "
         >
-          <p className="text-center text-sm text-muted-foreground">
-            {data.bio}
-          </p>
+          {/* Titre */}
+          <div className="text-center">
+            <h3 className="text-lg font-bold text-foreground">{data.name}</h3>
 
-          <div className="flex w-full items-center justify-between px-4">
-            <div className="text-center">
-              <p className="text-base font-bold">{data.stats.following}</p>
-              <p className="text-xs text-muted-foreground">Following</p>
-            </div>
-
-            <div className="text-center">
-              <p className="text-base font-bold">{data.stats.followers}</p>
-              <p className="text-xs text-muted-foreground">Followers</p>
-            </div>
-
-            {data.stats.posts !== undefined && (
-              <div className="text-center">
-                <p className="text-base font-bold">{data.stats.posts}</p>
-                <p className="text-xs text-muted-foreground">Posts</p>
-              </div>
-            )}
+            <p className="mt-1 text-sm text-muted-foreground">
+              Découvrez les détails du produit
+            </p>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
-            {data.socialLinks?.linkedin && (
-              <a
-                href={data.socialLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Linkedin size={20} />
-              </a>
-            )}
+          {/* Rating */}
+          <div className="mt-4 flex flex-col items-center">
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FontAwesomeIcon
+                  key={star}
+                  icon={faStar}
+                  className={
+                    star <= Math.round(data.rate)
+                      ? "text-yellow-400"
+                      : "text-muted-foreground/30"
+                  }
+                />
+              ))}
+            </div>
 
-            {data.socialLinks?.github && (
-              <a
-                href={data.socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Github size={20} />
-              </a>
-            )}
-
-            {data.socialLinks?.twitter && (
-              <a
-                href={data.socialLinks.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <Twitter size={20} />
-              </a>
-            )}
+            <p className="mt-1 text-sm font-medium">{data.rate}/5</p>
           </div>
 
-          <Button
-            onClick={(e) => {
-              e.stopPropagation();
-              // action Follow
-            }}
-          >
-            Follow
-          </Button>
+          {/* Section ingrédients */}
+          <div className="mt-5 rounded-lg border border-foreground/10 bg-background/30 p-3 backdrop-blur-sm">
+            <div className="mb-2 flex items-center gap-2">
+              <FontAwesomeIcon icon={faList} className="text-blue-500" />
 
-          {/* Bouton pour retourner la carte sur mobile */}
-          <button
-            type="button"
-            className="text-xs text-muted-foreground md:hidden"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsFlipped(false);
-            }}
-          >
-            ← Retour
-          </button>
+              <h4 className="text-sm font-semibold">Ingrédients</h4>
+            </div>
+
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              {data.ingredients || "Informations non disponibles."}
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="mt-auto flex items-center justify-between gap-2 pt-4">
+            {/* Retour mobile */}
+            <button
+              type="button"
+              className="
+                rounded-md
+                px-3
+                py-2
+                text-xs
+                text-muted-foreground
+                transition-colors
+                hover:bg-muted
+                md:hidden
+              "
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFlipped(false);
+              }}
+            >
+              ← Retour
+            </button>
+
+            {/* Ajouter au panier */}
+            <Button
+              className="flex-1 bg-blue-500 "
+              onClick={(e) => {
+                e.stopPropagation();
+
+                // ajouterAuPanier(data);
+              }}
+            >
+              <FontAwesomeIcon icon={faCartShopping} className="mr-2" />
+              Ajouter
+            </Button>
+          </div>
         </div>
       </motion.div>
     </div>
