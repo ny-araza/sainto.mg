@@ -2,6 +2,8 @@ import { Button } from "./ui/button";
 import { buttonVariants } from "./ui/button";
 import background from "../assets/background_header05.jpg";
 import { TypingTextDemo } from "./ui/typingText";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRobot } from "@fortawesome/free-solid-svg-icons";
 
 
 export const Hero = () => {
@@ -39,13 +41,13 @@ export const Hero = () => {
 
           <div className="space-y-4 md:space-y-0 md:space-x-4">
             <Button className="w-full md:w-1/3 hover:bg-blue-500 bg-blue-800" variant={"default"}>
-              Commander
+              <FontAwesomeIcon className="mr-2" icon={faRobot} />
+              Assistant virtuel
             </Button>
 
             <a
               rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
+              href="#features"
               className={`w-full md:w-1/3 ${buttonVariants({
                 variant: "outline",
               })}`}

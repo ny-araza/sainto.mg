@@ -48,7 +48,7 @@ const routeList: RouteProps[] = [
 
 export const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
-  const { ouvrirPanier } = useCart();
+  const { ouvrirPanier, nombreArticles } = useCart();
   return (
     <header
       className="
@@ -112,7 +112,7 @@ export const Navbar = () => {
                     </a>
                   ))}
 
-                  <a
+                  <Button
                     rel="noreferrer noopener"
                     href="#"
                     target="_blank"
@@ -122,12 +122,38 @@ export const Navbar = () => {
                   >
                     <FontAwesomeIcon className="mr-2" icon={faRobot} />
                     Assistant AI
-                  </a>
+                  </Button>
                   <Button
-                    className="hover:bg-blue-800 bg-blue-500"
+                    variant={"outline"}
+                    className="relative"
                     onClick={ouvrirPanier}
+                    title="Voir mon panier"
                   >
                     <FontAwesomeIcon icon={faCartShopping} />
+
+                    {nombreArticles > 0 && (
+                      <span
+                        className="
+                            absolute
+                            -right-2
+                            -top-2
+                            flex
+                            min-w-5
+                            h-5
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-red-500
+                            px-1
+                            text-xs
+                            font-bold
+                            text-white
+                            shadow-md
+                          "
+                      >
+                        {nombreArticles > 99 ? "99+" : nombreArticles}
+                      </span>
+                    )}
                   </Button>
                 </nav>
               </SheetContent>
@@ -151,18 +177,45 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden gap-2 md:flex justify-center items-center">
-            <Button variant={"ghost"}>
+            <Button variant={"outline"}>
               <FontAwesomeIcon className="mr-2" icon={faRobot} />
               Assistant AI
             </Button>
 
-            <ModeToggle />
             <Button
-              className="bg-blue-500 hover:bg-blue-800"
+              variant={"outline"}
+              className="relative"
               onClick={ouvrirPanier}
+              title="Voir mon panier"
             >
               <FontAwesomeIcon icon={faCartShopping} />
+
+              {nombreArticles > 0 && (
+                <span
+                  className="
+                      absolute
+                      -right-2
+                      -top-2
+                      flex
+                      min-w-5
+                      h-5
+                      items-center
+                      justify-center
+                      rounded-full
+                      bg-red-500
+                      px-1
+                      text-xs
+                      font-bold
+                      text-white
+                      shadow-md
+                    "
+                >
+                  {nombreArticles > 99 ? "99+" : nombreArticles}
+                </span>
+              )}
             </Button>
+
+            <ModeToggle />
           </div>
         </NavigationMenuList>
       </NavigationMenu>
