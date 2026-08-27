@@ -148,7 +148,7 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden gap-2 md:flex justify-center items-center">
-            <Button c variant={"ghost"}>
+            <Button variant={"ghost"}>
               <FontAwesomeIcon className="mr-2" icon={faRobot} />
               Assistant AI
             </Button>
