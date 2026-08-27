@@ -28,12 +28,6 @@ type EmblaControls = {
   onNext: () => void;
 };
 
-type DotButtonProps = {
-  selected?: boolean;
-  label: string;
-  onClick: () => void;
-};
-
 const transition: Transition = {
   type: "spring",
   stiffness: 240,
@@ -55,6 +49,7 @@ const useEmblaControls = (
   );
 
   const onPrev = React.useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+
   const onNext = React.useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   const updateSelectionState = (api: EmblaCarouselType) => {
@@ -76,6 +71,7 @@ const useEmblaControls = (
     if (!emblaApi) return;
 
     onInit(emblaApi);
+
     emblaApi.on("reInit", onInit).on("select", onSelect);
 
     return () => {
@@ -94,21 +90,30 @@ const useEmblaControls = (
   };
 };
 
-function MotionCarousel(props: PropType) {
-  const { slides, options } = props;
+function MotionCarousel({ slides, options }: PropType) {
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
-  const {
-    selectedIndex,
-    scrollSnaps,
-    prevDisabled,
-    nextDisabled,
-    onDotClick,
-    onPrev,
-    onNext,
-  } = useEmblaControls(emblaApi);
+
+  const { selectedIndex, prevDisabled, nextDisabled, onPrev, onNext } =
+    useEmblaControls(emblaApi);
 
   return (
-    <div className="w-full space-y-4  [--slide-spacing:1.5rem] [--slide-size:50%]">
+    <div
+      className="
+        w-full
+        space-y-4
+
+        [--slide-spacing:0.75rem]
+        [--slide-size:90%]
+
+        sm:[--slide-spacing:1rem]
+        sm:[--slide-size:70%]
+
+        md:[--slide-spacing:1.5rem]
+        md:[--slide-size:60%]
+
+        lg:[--slide-size:50%]
+      "
+    >
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y touch-pinch-zoom">
           {slides.map((slide, index) => {
@@ -116,11 +121,31 @@ function MotionCarousel(props: PropType) {
 
             return (
               <motion.div
-                key={index}
-                className="h-160 mr-[var(--slide-spacing)] basis-[var(--slide-size)] flex-none flex min-w-0"
+                key={slide.id}
+                className="
+                  mr-[var(--slide-spacing)]
+                  basis-[var(--slide-size)]
+                  flex-none
+                  flex
+                  min-w-0
+
+                  h-[420px]
+                  sm:h-[520px]
+                  md:h-[600px]
+                  lg:h-160
+                "
               >
                 <motion.div
-                  className="size-full flex items-center justify-center text-3xl md:text-5xl font-semibold select-none border-4 rounded-xl"
+                  className="
+                    size-full
+                    flex
+                    items-center
+                    justify-center
+                    overflow-hidden
+                    border-4
+                    rounded-xl
+                    select-none
+                  "
                   initial={false}
                   animate={{
                     scale: isActive ? 1 : 0.9,
@@ -130,7 +155,11 @@ function MotionCarousel(props: PropType) {
                   <img
                     src={slide.image}
                     alt={slide.alt}
-                    className="size-full rounded-xl object-cover"
+                    className="
+                      size-full
+                      rounded-xl
+                      object-cover
+                    "
                   />
                 </motion.div>
               </motion.div>
@@ -139,7 +168,7 @@ function MotionCarousel(props: PropType) {
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between px-2 sm:px-0">
         <Button
           size="icon"
           className="bg-blue-500 hover:bg-blue-800"
@@ -148,17 +177,6 @@ function MotionCarousel(props: PropType) {
         >
           <ChevronLeft className="size-5" />
         </Button>
-
-        <div className="flex flex-wrap justify-end items-center gap-2">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              label={`Slide ${index + 1}`}
-              selected={index === selectedIndex}
-              onClick={() => onDotClick(index)}
-            />
-          ))}
-        </div>
 
         <Button
           size="icon"
@@ -170,37 +188,6 @@ function MotionCarousel(props: PropType) {
         </Button>
       </div>
     </div>
-  );
-}
-
-function DotButton({ selected = false, label, onClick }: DotButtonProps) {
-  return (
-    <motion.button
-      type="button"
-      onClick={onClick}
-      layout
-      initial={false}
-      className="flex cursor-pointer select-none items-center justify-center rounded-full border-none bg-blue-800 text-primary-foreground text-sm"
-      animate={{
-        width: selected ? 68 : 12,
-        height: selected ? 28 : 12,
-      }}
-      transition={transition}
-    >
-      <motion.span
-        layout
-        initial={false}
-        className="block whitespace-nowrap px-3 py-1"
-        animate={{
-          opacity: selected ? 1 : 0,
-          scale: selected ? 1 : 0,
-          filter: selected ? "blur(0)" : "blur(4px)",
-        }}
-        transition={transition}
-      >
-        {label}
-      </motion.span>
-    </motion.button>
   );
 }
 

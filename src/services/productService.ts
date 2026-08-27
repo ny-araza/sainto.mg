@@ -19,6 +19,11 @@ export interface Client {
   rating: number | null;
 }
 
+export interface Pub {
+  id: number;
+  path: string;
+}
+
 export interface ProduitLike {
   id: number;
   client: number;
@@ -48,7 +53,7 @@ export async function getProducts(): Promise<ProduitMado[]> {
 export async function createClient(
   email: string,
   message?: string,
-  rating?: number
+  rating?: number,
 ): Promise<Client> {
   const response = await fetch(`${API_URL}/clients/`, {
     method: "POST",
@@ -67,9 +72,7 @@ export async function createClient(
   if (!response.ok) {
     const error = await response.json();
 
-    throw new Error(
-      error?.message || "Impossible de créer le client"
-    );
+    throw new Error(error?.message || "Impossible de créer le client");
   }
 
   return response.json();
@@ -77,7 +80,7 @@ export async function createClient(
 
 export async function likeProduct(
   clientId: number,
-  productId: number
+  productId: number,
 ): Promise<ProduitLike> {
   const response = await fetch(`${API_URL}/likes/`, {
     method: "POST",
@@ -95,42 +98,27 @@ export async function likeProduct(
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(
-      data?.message || "Impossible de liker le produit"
-    );
+    throw new Error(data?.message || "Impossible de liker le produit");
   }
 
   return data.data;
 }
 
-export async function unlikeProduct(
-  likeId: number
-): Promise<void> {
-  const response = await fetch(
-    `${API_URL}/likes/${likeId}/`,
-    {
-      method: "DELETE",
-    }
-  );
+export async function unlikeProduct(likeId: number): Promise<void> {
+  const response = await fetch(`${API_URL}/likes/${likeId}/`, {
+    method: "DELETE",
+  });
 
   if (!response.ok) {
-    throw new Error(
-      "Impossible de supprimer le like"
-    );
+    throw new Error("Impossible de supprimer le like");
   }
 }
 
-export async function getClientLikes(
-  clientId: number
-): Promise<ProduitLike[]> {
-  const response = await fetch(
-    `${API_URL}/clients/${clientId}/likes/`
-  );
+export async function getClientLikes(clientId: number): Promise<ProduitLike[]> {
+  const response = await fetch(`${API_URL}/clients/${clientId}/likes/`);
 
   if (!response.ok) {
-    throw new Error(
-      "Impossible de récupérer les likes du client"
-    );
+    throw new Error("Impossible de récupérer les likes du client");
   }
 
   const data = await response.json();
@@ -139,16 +127,12 @@ export async function getClientLikes(
 }
 
 export async function getProductRating(
-  productId: number
+  productId: number,
 ): Promise<ProductRating> {
-  const response = await fetch(
-    `${API_URL}/produits/${productId}/ratings/`
-  );
+  const response = await fetch(`${API_URL}/produits/${productId}/ratings/`);
 
   if (!response.ok) {
-    throw new Error(
-      "Impossible de récupérer la note du produit"
-    );
+    throw new Error("Impossible de récupérer la note du produit");
   }
 
   const data = await response.json();
@@ -157,54 +141,47 @@ export async function getProductRating(
     productId: data.product,
     totalLikes: data.total,
     averageRating: data.average,
-    rate: Math.min(
-      5,
-      Math.max(
-        1,
-        Math.round(data.average)
-      )
-    ),
+    rate: Math.min(5, Math.max(1, Math.round(data.average))),
   };
 }
 
 export async function sendFeedback(
   email: string,
   message: string,
-  rating: number
+  rating: number,
 ): Promise<Client> {
-
   if (rating < 1 || rating > 5) {
-    throw new Error(
-      "La note doit être comprise entre 1 et 5"
-    );
+    throw new Error("La note doit être comprise entre 1 et 5");
   }
 
-  return createClient(
-    email,
-    message,
-    rating
-  );
+  return createClient(email, message, rating);
 }
 
 export async function addProductToCart(
   productId: number,
-  email: string
+  email: string,
 ): Promise<{
   client: Client;
   like: ProduitLike;
 }> {
-
   // 1. Créer/récupérer le client
   const client = await createClient(email);
 
   // 2. Liker automatiquement le produit
-  const like = await likeProduct(
-    client.id,
-    productId
-  );
+  const like = await likeProduct(client.id, productId);
 
   return {
     client,
     like,
   };
+}
+
+export async function getPubs(): Promise<Pub[]> {
+  const response = await fetch(`${API_URL}/pubs/`);
+
+  if (!response.ok) {
+    throw new Error("Impossible de récupérer les publicités");
+  }
+
+  return response.json();
 }
