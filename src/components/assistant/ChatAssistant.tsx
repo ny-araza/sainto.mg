@@ -15,7 +15,7 @@ import {
   envoyerMessageAssistant,
   type HistoriqueMessage,
 } from "@/services/assistantService";
-
+import ReactMarkdown from "react-markdown";
 interface Message {
   id: number;
   auteur: "assistant" | "utilisateur";
@@ -169,7 +169,7 @@ export const ChatAssistant = () => {
                 : "justify-start",
             )}
           >
-            <div
+            {/*<div
               className={cn(
                 "max-w-[80%] rounded-2xl px-3.5 py-2 text-sm",
                 message.auteur === "utilisateur"
@@ -178,6 +178,64 @@ export const ChatAssistant = () => {
               )}
             >
               {message.texte}
+            </div>*/}
+            <div
+              className={cn(
+                "max-w-[80%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed",
+                message.auteur === "utilisateur"
+                  ? "rounded-br-sm bg-blue-500 text-white"
+                  : "rounded-bl-sm bg-muted text-foreground",
+              )}
+            >
+              {message.auteur === "assistant" ? (
+                <ReactMarkdown
+                  components={{
+                    p: ({ children }) => (
+                      <p className="mb-2 last:mb-0">{children}</p>
+                    ),
+
+                    strong: ({ children }) => (
+                      <strong className="font-bold">{children}</strong>
+                    ),
+
+                    ul: ({ children }) => (
+                      <ul className="my-2 list-disc space-y-1 pl-5">
+                        {children}
+                      </ul>
+                    ),
+
+                    ol: ({ children }) => (
+                      <ol className="my-2 list-decimal space-y-1 pl-5">
+                        {children}
+                      </ol>
+                    ),
+
+                    li: ({ children }) => <li>{children}</li>,
+
+                    h1: ({ children }) => (
+                      <h1 className="mb-2 text-lg font-bold">{children}</h1>
+                    ),
+
+                    h2: ({ children }) => (
+                      <h2 className="mb-2 text-base font-bold">{children}</h2>
+                    ),
+
+                    h3: ({ children }) => (
+                      <h3 className="mb-1 font-semibold">{children}</h3>
+                    ),
+
+                    code: ({ children }) => (
+                      <code className="rounded bg-black/10 px-1 py-0.5 text-xs">
+                        {children}
+                      </code>
+                    ),
+                  }}
+                >
+                  {message.texte}
+                </ReactMarkdown>
+              ) : (
+                message.texte
+              )}
             </div>
           </div>
         ))}
