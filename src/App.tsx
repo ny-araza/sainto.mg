@@ -1,21 +1,17 @@
 import { motion } from "framer-motion";
-
 import { About } from "./components/About";
-import { Cta } from "./components/Cta";
 import { FAQ } from "./components/FAQ";
 import { Features } from "./components/Features";
 import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { HowItWorks } from "./components/HowItWorks";
 import { Navbar } from "./components/Navbar";
-import { Newsletter } from "./components/Newsletter";
-import { Pricing } from "./components/Pricing";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { Services } from "./components/Services";
-import { Team } from "./components/Team";
 import { Testimonials } from "./components/Testimonials";
 // import AccordionGallery from "./components/AccordionGallery";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
 import { CartProvider } from "./context/CartContext";
 
 // Composant wrapper pour réutiliser l'animation
@@ -35,6 +31,9 @@ function FadeInSection({ children }) {
 function App() {
   return (
     <>
+      <Routes>
+        <Route path="/products" element={<Hero />} />
+      </Routes>
       <CartProvider>
         <Navbar />
         <Hero />
