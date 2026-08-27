@@ -11,8 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAssistant } from "@/context/AssistantContext";
-import { envoyerMessageAssistant } from "@/services/assistantService";
-import { useCart } from "@/context/CartContext";
+import {
+  envoyerMessageAssistant,
+  type HistoriqueMessage,
+} from "@/services/assistantService";
 
 interface Message {
   id: number;
@@ -39,7 +41,6 @@ export const ChatAssistant = () => {
   const [saisie, setSaisie] = useState("");
   const [enChargement, setEnChargement] = useState(false);
   const finDesMessages = useRef<HTMLDivElement>(null);
-  const { demanderAjout } = useCart();
 
   useEffect(() => {
     finDesMessages.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,18 +49,29 @@ export const ChatAssistant = () => {
   const envoyerMessage = async (texte: string) => {
     const contenu = texte.trim();
     if (!contenu || enChargement) return;
-    
+
     const messageUtilisateur: Message = {
       id: Date.now(),
       auteur: "utilisateur",
       texte: contenu,
     };
+    const construireHistorique = (msgs: Message[]): HistoriqueMessage[] =>
+      msgs
+        .filter((m) => m.id !== MESSAGE_ACCUEIL.id) // exclut le message d'accueil
+        .map((m) => ({
+          role: m.auteur === "utilisateur" ? "user" : "assistant",
+          content: m.texte,
+        }));
+    // Historique construit AVANT d'ajouter le nouveau message
+    // (le nouveau message est envoyé séparément dans `message`)
+    const historique = construireHistorique(messages);
+
     setMessages((prev) => [...prev, messageUtilisateur]);
     setSaisie("");
     setEnChargement(true);
 
     try {
-      const reponse = await envoyerMessageAssistant(contenu);
+      const reponse = await envoyerMessageAssistant(contenu, historique);
       setMessages((prev) => [
         ...prev,
         {
