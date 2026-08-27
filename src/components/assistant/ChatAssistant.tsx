@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useAssistant } from "@/context/AssistantContext";
+import { envoyerMessageAssistant } from "@/services/assistantService";
+import { useCart } from "@/context/CartContext";
 
 interface Message {
   id: number;
@@ -35,16 +37,18 @@ export const ChatAssistant = () => {
   const { isOpen, fermerAssistant } = useAssistant();
   const [messages, setMessages] = useState<Message[]>([MESSAGE_ACCUEIL]);
   const [saisie, setSaisie] = useState("");
+  const [enChargement, setEnChargement] = useState(false);
   const finDesMessages = useRef<HTMLDivElement>(null);
+  const { demanderAjout } = useCart();
 
   useEffect(() => {
     finDesMessages.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isOpen]);
+  }, [messages, isOpen, enChargement]);
 
-  const envoyerMessage = (texte: string) => {
+  const envoyerMessage = async (texte: string) => {
     const contenu = texte.trim();
-    if (!contenu) return;
-
+    if (!contenu || enChargement) return;
+    
     const messageUtilisateur: Message = {
       id: Date.now(),
       auteur: "utilisateur",
@@ -52,19 +56,31 @@ export const ChatAssistant = () => {
     };
     setMessages((prev) => [...prev, messageUtilisateur]);
     setSaisie("");
+    setEnChargement(true);
 
-    // Réponse simulée — à remplacer par un appel à votre API/LLM
-    setTimeout(() => {
+    try {
+      const reponse = await envoyerMessageAssistant(contenu);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          auteur: "assistant",
+          texte: reponse,
+        },
+      ]);
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
           auteur: "assistant",
           texte:
-            "Merci pour votre message ! Un conseiller Sainto reviendra vers vous très vite.",
+            "Désolé, une erreur est survenue. Veuillez réessayer dans un instant.",
         },
       ]);
-    }, 600);
+    } finally {
+      setEnChargement(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -154,6 +170,16 @@ export const ChatAssistant = () => {
           </div>
         ))}
 
+        {enChargement && (
+          <div className="flex justify-start">
+            <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-muted px-3.5 py-2.5">
+              <span className="size-1.5 animate-bounce rounded-full bg-foreground/40 [animation-delay:-0.3s]" />
+              <span className="size-1.5 animate-bounce rounded-full bg-foreground/40 [animation-delay:-0.15s]" />
+              <span className="size-1.5 animate-bounce rounded-full bg-foreground/40" />
+            </div>
+          </div>
+        )}
+
         {messages.length === 1 && (
           <div className="flex flex-wrap gap-2 pt-1">
             {SUGGESTIONS.map((suggestion) => (
@@ -193,7 +219,7 @@ export const ChatAssistant = () => {
           type="submit"
           size="icon"
           className="shrink-0 bg-blue-500 hover:bg-blue-800"
-          disabled={!saisie.trim()}
+          disabled={!saisie.trim() || enChargement}
           aria-label="Envoyer"
         >
           <FontAwesomeIcon icon={faPaperPlane} className="size-3.5" />
