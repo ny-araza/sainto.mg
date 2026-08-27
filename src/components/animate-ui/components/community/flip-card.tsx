@@ -31,7 +31,7 @@ interface FlipCardProps {
 export function FlipCard({ data }: FlipCardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
   const [isTouchDevice, setIsTouchDevice] = React.useState(false);
-  const { ajouterAuPanier } = useCart();
+  const { demanderAjout } = useCart();
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia("(hover: none), (pointer: coarse)");
@@ -265,7 +265,7 @@ export function FlipCard({ data }: FlipCardProps) {
               className="flex-1 bg-blue-500 hover:bg-blue-800"
               onClick={(e) => {
                 e.stopPropagation();
-                ajouterAuPanier(data);
+                demanderAjout(data);
               }}
               title="Ajouter au panier"
             >

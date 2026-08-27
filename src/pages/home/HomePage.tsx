@@ -1,15 +1,17 @@
-import { CartProvider } from "@/context/CartContext"
-import { Navbar } from "@/components/Navbar"
-import { Hero } from "@/components/Hero"
-import { About } from "@/components/About"
-import { HowItWorks } from "@/components/HowItWorks"
-import { Services } from "@/components/Services"
-import { Features } from "@/components/Features"
-import { Testimonials } from "@/components/Testimonials"
+import { CartProvider } from "@/context/CartContext";
+import { Navbar } from "@/components/Navbar";
+import { Hero } from "@/components/Hero";
+import { About } from "@/components/About";
+import { HowItWorks } from "@/components/HowItWorks";
+import { Services } from "@/components/Services";
+import { Features } from "@/components/Features";
+import { Testimonials } from "@/components/Testimonials";
 import { motion } from "framer-motion";
-import { FAQ } from "@/components/FAQ"
-import { Footer } from "@/components/Footer"
-import { ScrollToTop } from "@/components/ScrollToTop"
+import { FAQ } from "@/components/FAQ";
+import { Footer } from "@/components/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
+import { ConfirmAddToCart } from "@/components/modal/myCart/ConfirmAddToCart";
+import { CartNotification } from "@/components/modal/myCart/CarNotification";
 
 function FadeInSection({ children }) {
   return (
@@ -26,38 +28,40 @@ function FadeInSection({ children }) {
 
 export default function HomePage() {
   return (
-  <CartProvider>
-    <Navbar />
-    <Hero />
-    <FadeInSection>
-      <About />
-    </FadeInSection>
-    <FadeInSection>
-      <HowItWorks />
-    </FadeInSection>
-    <FadeInSection>
-      <Features />
-    </FadeInSection>
-    <FadeInSection>
-      <Services />
-    </FadeInSection>
-    <FadeInSection>
-      <Testimonials />
-    </FadeInSection>
-    {/*<FadeInSection>
+    <CartProvider>
+      <ConfirmAddToCart />
+      <CartNotification />
+      <Navbar />
+      <Hero />
+      <FadeInSection>
+        <About />
+      </FadeInSection>
+      <FadeInSection>
+        <HowItWorks />
+      </FadeInSection>
+      <FadeInSection>
+        <Features />
+      </FadeInSection>
+      <FadeInSection>
+        <Services />
+      </FadeInSection>
+      <FadeInSection>
+        <Testimonials />
+      </FadeInSection>
+      {/*<FadeInSection>
     <Team />
   </FadeInSection>*/}
-    {/*<FadeInSection>
+      {/*<FadeInSection>
     <Pricing />
   </FadeInSection>*/}
-    {/*<FadeInSection>
+      {/*<FadeInSection>
     <Newsletter />
   </FadeInSection>*/}
-    <FadeInSection>
-      <FAQ />
-    </FadeInSection>
-    <Footer />
-    <ScrollToTop />
-  </CartProvider>
-  )
+      <FadeInSection>
+        <FAQ />
+      </FadeInSection>
+      <Footer />
+      <ScrollToTop />
+    </CartProvider>
+  );
 }
