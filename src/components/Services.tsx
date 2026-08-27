@@ -37,7 +37,7 @@ export const Services = () => {
       <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="bg-gradient-to-b text-blue-500 to-primary text-transparent bg-clip-text">
+            <span className=" text-blue-500 to-primary bg-clip-text">
               Service{" "}
             </span>
             Client

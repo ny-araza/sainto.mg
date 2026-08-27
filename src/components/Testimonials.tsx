@@ -93,7 +93,7 @@ export const Testimonials = () => {
     <section id="testimonials" className="container py-24 sm:py-32">
       <h2 className="text-3xl font-bold md:text-4xl">
         Feedback des
-        <span className=" text-blue-500 to-primary bg-clip-text text-transparent">
+        <span className=" text-blue-500 to-primary bg-clip-text">
           {" "}
           Clients{" "}
         </span>
