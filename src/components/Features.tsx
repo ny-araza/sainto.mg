@@ -1,7 +1,9 @@
 import { Badge } from "./ui/badge";
 import TiltDemo from "./ui/tiltDemo";
-import { Button } from "./ui/button";
+import { Button } from "./animate-ui/components/buttons/button";
 import { useCart } from "@/context/CartContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 type ProduitProps = {
   id: number;
@@ -19,7 +21,7 @@ const featureList: string[] = [
 ];
 
 export const Features = () => {
-  const {ajouterAuPanier} = useCart()
+  const { ajouterAuPanier } = useCart();
   const listeArticle: ProduitProps[] = [
     {
       id: 1,
@@ -134,8 +136,13 @@ export const Features = () => {
               image={item.path}
               product={item}
             />
-            <Button size="sm" onClick={() => ajouterAuPanier(item)}>
-              Ajouter au panier
+            <Button
+              variant={"ghost"}
+              size="sm"
+              onClick={() => ajouterAuPanier(item)}
+              title="Ajouter au panier"
+            >
+              <FontAwesomeIcon icon={faPlusCircle} />
             </Button>
           </div>
         ))}
