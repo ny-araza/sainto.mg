@@ -113,15 +113,9 @@ export const Navbar = () => {
                   ))}
 
                   <Button
-                    rel="noreferrer noopener"
-                    href="#"
-                    target="_blank"
-                    className={`w-[110px] pr-5 pl-5 border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
+                    variant={"outline"}
                   >
-                    <FontAwesomeIcon className="mr-2" icon={faRobot} />
-                    Assistant AI
+                    <FontAwesomeIcon  icon={faRobot} />
                   </Button>
                   <Button
                     variant={"outline"}
@@ -177,9 +171,8 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden gap-2 md:flex justify-center items-center">
-            <Button variant={"outline"}>
-              <FontAwesomeIcon className="mr-2" icon={faRobot} />
-              Assistant AI
+            <Button variant={"outline"} title="Discuter avec notre assistant virtuel">
+              <FontAwesomeIcon icon={faRobot} />
             </Button>
 
             <Button
