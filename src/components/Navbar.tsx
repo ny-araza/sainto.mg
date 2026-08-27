@@ -20,7 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faRobot } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "./animate-ui/components/buttons/button";
 import { useCart } from "@/context/CartContext";
-import { MyChart } from "./modal/myCart/myCart";
+import { useAssistant } from "@/context/AssistantContext";
 
 interface RouteProps {
   href: string;
@@ -49,6 +49,7 @@ const routeList: RouteProps[] = [
 export const Navbar = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
   const { ouvrirPanier, nombreArticles } = useCart();
+  const { ouvrirAssistant } = useAssistant();
   return (
     <header
       className="
@@ -63,7 +64,7 @@ export const Navbar = () => {
         supports-[backdrop-filter]:bg-background/30
       "
     >
-      <MyChart></MyChart>
+      
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container flex h-14 w-screen justify-between px-4">
           <NavigationMenuItem className="flex font-bold">
@@ -113,9 +114,13 @@ export const Navbar = () => {
                   ))}
 
                   <Button
+                    onClick={() => {
+                      setIsOpenMenu(false);
+                      ouvrirAssistant();
+                    }}
                     variant={"outline"}
                   >
-                    <FontAwesomeIcon  icon={faRobot} />
+                    <FontAwesomeIcon icon={faRobot} />
                   </Button>
                   <Button
                     variant={"outline"}
@@ -171,7 +176,11 @@ export const Navbar = () => {
           </nav>
 
           <div className="hidden gap-2 md:flex justify-center items-center">
-            <Button variant={"outline"} title="Discuter avec notre assistant virtuel">
+            <Button
+              variant={"outline"}
+              onClick={ouvrirAssistant}
+              title="Discuter avec notre assistant virtuel"
+            >
               <FontAwesomeIcon icon={faRobot} />
             </Button>
 

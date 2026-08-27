@@ -12,6 +12,9 @@ import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { ConfirmAddToCart } from "@/components/modal/myCart/ConfirmAddToCart";
 import { CartNotification } from "@/components/modal/myCart/CarNotification";
+import { AssistantProvider } from "@/context/AssistantContext";
+import { MyChart } from "@/components/modal/myCart/myCart";
+import { ChatAssistant } from "@/components/assistant/ChatAssistant";
 
 function FadeInSection({ children }) {
   return (
@@ -29,39 +32,43 @@ function FadeInSection({ children }) {
 export default function HomePage() {
   return (
     <CartProvider>
-      <ConfirmAddToCart />
-      <CartNotification />
-      <Navbar />
-      <Hero />
-      <FadeInSection>
-        <About />
-      </FadeInSection>
-      <FadeInSection>
-        <HowItWorks />
-      </FadeInSection>
-      <FadeInSection>
-        <Features />
-      </FadeInSection>
-      <FadeInSection>
-        <Services />
-      </FadeInSection>
-      <FadeInSection>
-        <Testimonials />
-      </FadeInSection>
-      {/*<FadeInSection>
+      <AssistantProvider>
+        <ConfirmAddToCart />
+        <CartNotification />
+        <Navbar />
+        <MyChart></MyChart>
+        <ChatAssistant />
+        <Hero />
+        <FadeInSection>
+          <About />
+        </FadeInSection>
+        <FadeInSection>
+          <HowItWorks />
+        </FadeInSection>
+        <FadeInSection>
+          <Features />
+        </FadeInSection>
+        <FadeInSection>
+          <Services />
+        </FadeInSection>
+        <FadeInSection>
+          <Testimonials />
+        </FadeInSection>
+        {/*<FadeInSection>
         <Team />
         </FadeInSection>*/}
-      {/*<FadeInSection>
+        {/*<FadeInSection>
         <Pricing />
       </FadeInSection>*/}
-      {/*<FadeInSection>
+        {/*<FadeInSection>
         <Newsletter />
         </FadeInSection>*/}
-      <FadeInSection>
-        <FAQ />
-      </FadeInSection>
-      <Footer />
-      <ScrollToTop />
+        <FadeInSection>
+          <FAQ />
+        </FadeInSection>
+        <Footer />
+        <ScrollToTop />
+      </AssistantProvider>
     </CartProvider>
   );
 }
