@@ -87,9 +87,31 @@ export const MyChart = () => {
    */
   const validerDevis = async () => {
     try {
+      console.log("here")
       setLoading(true);
       const client = await createClient(email, "");
       await validateCartLikes(client.id, panier);
+      const response = await fetch(
+        "http://localhost:8000/api/send-devis-email/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nom,
+            email,
+            telephone,
+            adresse,
+            panier,
+            devis,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de l'envoi de l'email");
+      }
       setClientId(client.id);
       viderPanier();
       setDevisOpen(false);
