@@ -31,8 +31,8 @@ const MESSAGE_ACCUEIL: Message = {
 
 const SUGGESTIONS = [
   "Voir vos produits",
-  "Suivre ma commande",
   "Parler à un conseiller",
+  "Demander plus d'informtions sur la société Sainto",
 ];
 
 export const ChatAssistant = () => {
@@ -46,9 +46,60 @@ export const ChatAssistant = () => {
     finDesMessages.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen, enChargement]);
 
+  const normaliser = (txt: string) =>
+    txt
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // enlève les accents
+      .replace(/['’]/g, " ")
+      .trim();
+
+  const MOTS_COMMANDE = [
+    // Français
+    "command", // commander, commande, commandes, commandé...
+    "acheter",
+    "achat",
+    "achete",
+    "passer une commande",
+    "passer commande",
+    "reserver",
+    "reservation",
+    "panier",
+    "payer",
+    "order",
+    "buy",
+    "purchase",
+    "i want to buy",
+    "how to order",
+  ];
+
+  const veutCommander = (texte: string) => {
+    const t = normaliser(texte);
+    return MOTS_COMMANDE.some((mot) => t.includes(normaliser(mot)));
+  };
+
   const envoyerMessage = async (texte: string) => {
     const contenu = texte.trim();
     if (!contenu || enChargement) return;
+
+    if (veutCommander(contenu)) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          auteur: "utilisateur",
+          texte: contenu,
+        },
+        {
+          id: Date.now() + 2,
+          auteur: "assistant",
+          texte:
+            "Pour passer commande, veuillez cliquer sur le bouton **« Nos produits »** et suivre les étapes indiquées sur le site. Pour des raisons de sécurité, seule votre intervention via les interfaces officielles permet de garantir l’authenticité de votre commande.",
+        },
+      ]);
+      setSaisie("");
+      return;
+    }
 
     const messageUtilisateur: Message = {
       id: Date.now(),
@@ -169,16 +220,6 @@ export const ChatAssistant = () => {
                 : "justify-start",
             )}
           >
-            {/*<div
-              className={cn(
-                "max-w-[80%] rounded-2xl px-3.5 py-2 text-sm",
-                message.auteur === "utilisateur"
-                  ? "rounded-br-sm bg-blue-500 text-white"
-                  : "rounded-bl-sm bg-muted text-foreground",
-              )}
-            >
-              {message.texte}
-            </div>*/}
             <div
               className={cn(
                 "max-w-[80%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed",

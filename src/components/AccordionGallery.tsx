@@ -209,7 +209,7 @@ const AccordionGallery = ({
       const usable = Math.max(total - gap * (count - 1), 120);
       const size = Math.max(
         140,
-        usable * Math.min(Math.max(expandRatio, 0.2), 0.9) * 1.22,
+        usable * Math.min(Math.max(expandRatio, 0.2), 0.9),
       );
       mediaSizeRef.current = size;
       el.style.setProperty("--ag-media-size", `${size}px`);
@@ -268,9 +268,7 @@ const AccordionGallery = ({
       `}
       style={{
         gap: `${gap}px`,
-        height: vertical
-          ? `${Math.round(height * 1.6)}px`
-          : `${height}px`,
+        height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px`,
       }}
       role="list"
       aria-label="Image accordion gallery"
@@ -278,7 +276,7 @@ const AccordionGallery = ({
       {items.map((item, i) => {
         const isActive = i === active;
         const Tag = (item.link ? "a" : "div") as "a";
-    
+
         return (
           <Tag
             key={i}
@@ -326,14 +324,10 @@ const AccordionGallery = ({
                 }}
                 className="absolute top-1/2 left-1/2 [filter:grayscale(var(--ag-gray,1))]"
                 style={{
-                  width: vertical
-                    ? "100%"
-                    : "var(--ag-media-size, 320px)",
-    
-                  height: vertical
-                    ? "var(--ag-media-size, 320px)"
-                    : "100%",
-    
+                  width: vertical ? "100%" : "var(--ag-media-size, 320px)",
+
+                  height: vertical ? "var(--ag-media-size, 320px)" : "100%",
+
                   willChange: "transform, filter",
                 }}
               >
@@ -346,19 +340,19 @@ const AccordionGallery = ({
                     h-full
                     w-full
                     select-none
-                    object-cover
+                    object-contain
                     [-webkit-user-drag:none]
                   "
                 />
               </span>
-    
+
               <span
                 className="pointer-events-none absolute inset-0"
                 style={{ background: overlayBg }}
                 aria-hidden="true"
               />
             </span>
-    
+
             {showLabels && (
               <span
                 className="
@@ -390,7 +384,7 @@ const AccordionGallery = ({
                     boxShadow: `0 0 12px color-mix(in srgb, ${accentColor} 60%, transparent)`,
                   }}
                 />
-    
+
                 <span
                   ref={(el: HTMLElement | null) => {
                     textRefs.current[i] = el;

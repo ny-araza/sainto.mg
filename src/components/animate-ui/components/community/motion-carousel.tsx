@@ -138,11 +138,7 @@ function MotionCarousel({ slides, options }: PropType) {
                 <motion.div
                   className="
                     size-full
-                    flex
-                    items-center
-                    justify-center
                     overflow-hidden
-                    border-4
                     rounded-xl
                     select-none
                   "
@@ -157,8 +153,7 @@ function MotionCarousel({ slides, options }: PropType) {
                     alt={slide.alt}
                     className="
                       size-full
-                      rounded-xl
-                      object-cover
+                      object-contain
                     "
                   />
                 </motion.div>

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   faCartShopping,
   faStar,
-  faList,
   faBox,
   faBottleWater,
   faWeightHanging,
