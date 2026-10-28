@@ -26,13 +26,10 @@ const MESSAGE_ACCUEIL: Message = {
   id: 0,
   auteur: "assistant",
   texte:
-    "Bonjour 👋 Je suis l'assistant Sainto. Je peux vous aider à trouver un produit, suivre une commande ou répondre à vos questions.",
+    "Bonjour 👋 Je suis l'assistant Sainto. Je peux vous aider à trouver un produit, ou répondre à vos questions.",
 };
 
 const SUGGESTIONS = [
-  "Voir vos produits",
-  "Parler à un conseiller",
-  "Demander plus d'informtions sur la société Sainto",
 ];
 
 export const ChatAssistant = () => {

@@ -64,6 +64,7 @@ export const Navbar = () => {
         supports-[backdrop-filter]:bg-background/30
       "
     >
+      
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container flex h-14 w-screen justify-between px-4">
           <NavigationMenuItem className="flex font-bold">
@@ -79,38 +80,7 @@ export const Navbar = () => {
           {/* Mobile */}
           <span className="flex md:hidden">
             <ModeToggle />
-            <Button
-              variant={"secondary"}
-              className="relative ml-2"
-              onClick={ouvrirPanier}
-              title="Voir mon panier"
-            >
-              <FontAwesomeIcon icon={faCartShopping} />
 
-              {nombreArticles > 0 && (
-                <span
-                  className="
-                      absolute
-                      -right-2
-                      -top-2
-                      flex
-                      min-w-5
-                      h-5
-                      items-center
-                      justify-center
-                      rounded-full
-                      bg-red-500
-                      px-1
-                      text-xs
-                      font-bold
-                      text-white
-                      shadow-md
-                    "
-                >
-                  {nombreArticles > 99 ? "99+" : nombreArticles}
-                </span>
-              )}
-            </Button>
             <Sheet open={isOpenMenu} onOpenChange={setIsOpenMenu}>
               <SheetTrigger className="px-2">
                 <Menu className="h-5 w-5" />
@@ -151,6 +121,38 @@ export const Navbar = () => {
                     variant={"outline"}
                   >
                     <FontAwesomeIcon icon={faRobot} />
+                  </Button>
+                  <Button
+                    variant={"outline"}
+                    className="relative"
+                    onClick={ouvrirPanier}
+                    title="Voir mon panier"
+                  >
+                    <FontAwesomeIcon icon={faCartShopping} />
+
+                    {nombreArticles > 0 && (
+                      <span
+                        className="
+                            absolute
+                            -right-2
+                            -top-2
+                            flex
+                            min-w-5
+                            h-5
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-red-500
+                            px-1
+                            text-xs
+                            font-bold
+                            text-white
+                            shadow-md
+                          "
+                      >
+                        {nombreArticles > 99 ? "99+" : nombreArticles}
+                      </span>
+                    )}
                   </Button>
                 </nav>
               </SheetContent>

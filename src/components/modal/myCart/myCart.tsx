@@ -61,7 +61,7 @@ export const MyChart = () => {
       (total, ligne) => total + ligne.montantTVA,
       0,
     );
-    return { lignes, totalHT, totalTVA, totalTTC: totalHT + totalTVA };
+    return { lignes, totalHT, totalTVA, totalTTC: totalHT };
   };
 
   /** Étape 1 → 2 : "Valider le panier" ferme le panier et ouvre le formulaire client */
@@ -377,14 +377,6 @@ export const MyChart = () => {
               </div>
 
               <div className="ml-auto w-full max-w-[300px] space-y-2 rounded-lg border p-4">
-                <div className="flex justify-between">
-                  <span>Total HT</span>
-                  <span>{formatAriary(devis.totalHT)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>TVA 20%</span>
-                  <span>{formatAriary(devis.totalTVA)}</span>
-                </div>
                 <div className="flex justify-between border-t pt-2 text-lg font-bold">
                   <span>Total TTC</span>
                   <span>{formatAriary(devis.totalTTC)}</span>
