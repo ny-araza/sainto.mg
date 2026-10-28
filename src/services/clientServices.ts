@@ -26,8 +26,11 @@ export async function getClientsWithFeedback(): Promise<Client[]> {
   );
 }
 
-export async function updateClient(id: number | string | null, feedbacks: string) {
-  console.log("id", id)
+export async function updateClient(
+  id: number | string | null,
+  feedbacks: string,
+) {
+  console.log("id", id);
   const response = await fetch(`${API_URL}/clients/${id}/`, {
     method: "PATCH",
     headers: {
@@ -37,7 +40,27 @@ export async function updateClient(id: number | string | null, feedbacks: string
     body: JSON.stringify({ message: feedbacks }),
   });
 
-  const data = await response.json();
+  const text = await response.text();
+
+  let data: any;
+
+  try {
+    data = JSON.parse(text);
+  } catch {
+    console.error("Réponse non JSON de l'API clients :", {
+      status: response.status,
+      contentType: response.headers.get("content-type"),
+      body: text.slice(0, 500),
+    });
+
+    throw new Error("L'API clients a renvoyé une réponse non JSON");
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      data?.detail || "Impossible de récupérer les feedbacks des clients",
+    );
+  }
 
   if (!response.ok) {
     throw new Error(data?.detail || "Impossible de mettre à jour le client");

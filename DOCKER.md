@@ -21,7 +21,26 @@
     sudo pacman -Syu nginx # for cachyOS
 ```
 
-## Run the docker
+## Create the image docker
 ```bash
     docker run -p 8080:80 sainto:1.0
+```
+
+## expose the site in local for test
+```bash
+sudo ufw allow 8080/tcp
+sudo ufw status
+```
+
+## create the container fron the docker image
+```bash
+sudo docker run -d \
+       --name stock-management \
+       -p 0.0.0.0:5173:80 \
+       sainto:1.0
+```
+
+## start the container
+```bash
+    sudo docker start stock-management
 ```
