@@ -39,19 +39,23 @@ const API_URL = import.meta.env.VITE_API_URL;
 const TVA = 0.2;
 
 /**
- * Taille du pack selon le produit.
- * - Sainto 1,5 L / 1 L et Ice Tea 1,5 L : pack de 6 pièces
- * - Sainto 0,5 L et Ice Tea 0,5 L : pack de 8 pièces
- * - Autre produit : null (vendu à l'unité)
+ * Taille du pack selon la contenance du produit.
+ * - 1,5 L et 1 L : pack de 6 pièces
+ * - 0,5 L (500 ml) : pack de 8 pièces
+ * - Tout autre produit : null (vendu à l'unité, donc 1 pièce)
  */
-function getTaillePack(nom: string): number {
+function getTaillePack(nom: string): number | null {
   const n = nom.toLowerCase().replace(",", ".");
 
-  if (/1\.5\s*l|1\.5l|1500\s*ml/.test(n)) return 6;
-  if (/1\s*l|1000\s*ml/.test(n)) return 6;
-  if (/0\.5\s*l|500\s*ml/.test(n)) return 8;
+  // (?<![\d.]) évite de confondre "1.5 l" avec "5 l" ou "0.5 l" avec "5 l"
+  if (/(?<![\d.])0\.5\s*(l|litres?)\b|(?<![\d.])500\s*ml/.test(n)) return 8;
+  if (
+    /(?<![\d.])1\.5\s*(l|litres?)\b|(?<![\d.])1500\s*ml/.test(n) ||
+    /(?<![\d.])1\s*(l|litres?)\b|(?<![\d.])1000\s*ml/.test(n)
+  )
+    return 6;
 
-  return 1;
+  return null;
 }
 
 /** Calculs d'une ligne : le prix unitaire (TTC) est multiplié par la taille du pack */
@@ -229,7 +233,7 @@ export const MyChart = () => {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
     const note = doc.splitTextToSize(
-      "Nous ne vendons que par pack les produits Sainto (1,5 L, 1 L, 0,5 L) et Ice Tea. Sainto 1,5 L, Sainto 1 L et Ice Tea 1,5 L : 6 pieces par pack. Sainto 0,5 L et Ice Tea 0,5 L : 8 pieces par pack.",
+      "Les produits en 1,5 L, 1 L et 0,5 L ne sont vendus que par pack. 1,5 L et 1 L : 6 pieces par pack. 0,5 L : 8 pieces par pack. Les autres produits sont vendus a l'unite.",
       largeur - 2 * marge - 6,
     );
     doc.text(note, marge + 3, 46);
@@ -356,12 +360,13 @@ export const MyChart = () => {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+          <div className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-700 dark:bg-amber-950/40 dark:text-amber-200">
             <Info className="mt-0.5 size-4 shrink-0" />
             <p>
-              Les produits <strong>Sainto</strong> et <strong>Ice Tea</strong>{" "}
-              sont vendus <strong>uniquement par pack</strong>. La quantité
-              correspond au nombre de packs.
+              Les produits en <strong>1,5 L</strong>, <strong>1 L</strong> et{" "}
+              <strong>0,5 L</strong> sont vendus{" "}
+              <strong>uniquement par pack</strong>. La quantité correspond au
+              nombre de packs. Les autres produits sont vendus à l'unité.
             </p>
           </div>
 
@@ -390,7 +395,7 @@ export const MyChart = () => {
                         {formatAriary(ligne.price)} / unité
                       </span>
                     )}
-                    <span className="text-xs font-semibold text-blue-600">
+                    <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
                       {formatAriary(l.totalTTC)}
                     </span>
                   </div>
@@ -512,7 +517,7 @@ export const MyChart = () => {
                 placeholder="Ex : Antananarivo, quartier, rue..."
                 value={adresse}
                 onChange={(e) => setAdresse(e.target.value)}
-                className="min-h-[80px] w-full resize-none border"
+                className="min-h-[80px] w-full resize-none rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-input/30"
               />
             </div>
           </div>
@@ -561,7 +566,7 @@ export const MyChart = () => {
           {devis && (
             <div className="space-y-5 px-6 py-5">
               {/* NOTE IMPORTANTE */}
-              <div className="flex items-start gap-3 rounded-lg border-l-4 border-amber-500 bg-amber-50 p-4 text-sm text-amber-900">
+              <div className="flex items-start gap-3 rounded-lg border-l-4 border-amber-500 bg-amber-50 p-4 text-sm text-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
                 <Info className="mt-0.5 size-5 shrink-0" />
                 <div>
                   <p className="font-bold uppercase tracking-wide">
@@ -569,47 +574,46 @@ export const MyChart = () => {
                   </p>
                   <p className="mt-1">
                     Nous ne vendons <strong>que par pack</strong> les produits
-                    concernés (Sainto 1,5 L, 1 L, 0,5 L et Ice Tea). Les prix
-                    affichés tiennent compte du pack complet :
+                    en 1,5 L, 1 L et 0,5 L. Les prix affichés tiennent compte du
+                    pack complet :
                   </p>
                   <ul className="mt-1 list-inside list-disc text-xs">
                     <li>
-                      Sainto 1,5 L, Sainto 1 L et Ice Tea 1,5 L :{" "}
-                      <strong>6 pièces</strong> par pack
+                      Produits 1,5 L et 1 L : <strong>6 pièces</strong> par pack
                     </li>
                     <li>
-                      Sainto 0,5 L et Ice Tea 0,5 L : <strong>8 pièces</strong>{" "}
-                      par pack
+                      Produits 0,5 L : <strong>8 pièces</strong> par pack
                     </li>
+                    <li>Autres produits : vendus à l'unité</li>
                   </ul>
                 </div>
               </div>
 
               {/* Client */}
-              <div className="grid gap-3 rounded-lg border bg-slate-50 p-4 text-sm sm:grid-cols-2">
+              <div className="grid gap-3 rounded-lg border bg-slate-50 p-4 text-sm dark:bg-slate-800/50 sm:grid-cols-2">
                 <div className="flex items-start gap-2">
-                  <User className="mt-0.5 size-4 text-blue-600" />
+                  <User className="mt-0.5 size-4 text-blue-600 dark:text-blue-400" />
                   <div>
                     <p className="text-muted-foreground text-xs">Client</p>
                     <p className="font-medium">{nom}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Phone className="mt-0.5 size-4 text-blue-600" />
+                  <Phone className="mt-0.5 size-4 text-blue-600 dark:text-blue-400" />
                   <div>
                     <p className="text-muted-foreground text-xs">Téléphone</p>
                     <p className="font-medium">{telephone}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Mail className="mt-0.5 size-4 text-blue-600" />
+                  <Mail className="mt-0.5 size-4 text-blue-600 dark:text-blue-400" />
                   <div className="min-w-0">
                     <p className="text-muted-foreground text-xs">Email</p>
                     <p className="truncate font-medium">{email}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
-                  <MapPin className="mt-0.5 size-4 text-blue-600" />
+                  <MapPin className="mt-0.5 size-4 text-blue-600 dark:text-blue-400" />
                   <div>
                     <p className="text-muted-foreground text-xs">
                       Adresse de livraison
@@ -621,7 +625,7 @@ export const MyChart = () => {
 
               {/* Lignes de commande */}
               <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">
                   Détail de la commande
                 </h3>
                 {devis.lignes.map((ligne) => (
@@ -634,12 +638,12 @@ export const MyChart = () => {
                         <p className="font-semibold">{ligne.name}</p>
                         <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                           {ligne.taillePack ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 font-medium text-blue-700">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 font-medium text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
                               <Package className="size-3" />
                               Pack de {ligne.taillePack} pièces
                             </span>
                           ) : (
-                            <span className="rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600">
+                            <span className="rounded-full bg-slate-100 px-2 py-0.5 font-medium text-slate-600 dark:bg-slate-700 dark:text-slate-200">
                               Vendu à l'unité
                             </span>
                           )}
@@ -650,7 +654,7 @@ export const MyChart = () => {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-blue-700">
+                        <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
                           {formatAriary(ligne.totalTTC)}
                         </p>
                         <p className="text-muted-foreground text-xs">TTC</p>
@@ -688,7 +692,7 @@ export const MyChart = () => {
               </div>
 
               {/* Récapitulatif */}
-              <div className="ml-auto w-full space-y-2 rounded-lg border bg-slate-50 p-4 text-sm sm:max-w-[340px]">
+              <div className="ml-auto w-full space-y-2 rounded-lg border bg-slate-50 p-4 dark:bg-slate-800/50 text-sm sm:max-w-[340px]">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Total pièces</span>
                   <span className="font-medium">{devis.totalPieces}</span>
@@ -707,7 +711,7 @@ export const MyChart = () => {
                     {formatAriary(devis.totalTVA)}
                   </span>
                 </div>
-                <div className="flex justify-between border-t pt-3 text-lg font-bold text-blue-700">
+                <div className="flex justify-between border-t pt-3 text-lg font-bold text-blue-700 dark:text-blue-400">
                   <span>Total TTC</span>
                   <span>{formatAriary(devis.totalTTC)}</span>
                 </div>
@@ -754,10 +758,12 @@ export const MyChart = () => {
           </DialogHeader>
 
           {/* Export PDF du devis */}
-          <div className="flex items-center justify-between gap-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
+          <div className="flex items-center justify-between gap-3 rounded-lg border border-blue-200 bg-blue-50 p-3 dark:border-blue-800 dark:bg-blue-950/40">
             <div className="text-sm">
-              <p className="font-semibold text-blue-900">Votre devis</p>
-              <p className="text-xs text-blue-700">
+              <p className="font-semibold text-blue-900 dark:text-blue-100">
+                Votre devis
+              </p>
+              <p className="text-xs text-blue-700 dark:text-blue-300">
                 Téléchargez-le en PDF pour le conserver.
               </p>
             </div>
@@ -765,7 +771,7 @@ export const MyChart = () => {
               variant="outline"
               onClick={exporterDevisPdf}
               disabled={!devis}
-              className="shrink-0 border-blue-300 text-blue-700 hover:bg-blue-100"
+              className="shrink-0 border-blue-300 text-blue-700 hover:bg-blue-100 dark:border-blue-700 dark:text-blue-300 dark:hover:bg-blue-900/40"
             >
               <Download className="mr-1 size-4" />
               Exporter en PDF
@@ -783,7 +789,7 @@ export const MyChart = () => {
               placeholder="Votre avis, vos suggestions ou vos compliments..."
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              className="min-h-[110px] w-full resize-none border"
+              className="min-h-[110px] w-full resize-none rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-input/30"
             />
             <p className="text-xs text-muted-foreground">
               💡 Dites-nous ce que vous souhaitez améliorer, partagez votre

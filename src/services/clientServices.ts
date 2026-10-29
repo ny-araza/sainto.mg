@@ -7,8 +7,18 @@ export interface Client {
   message: string | null;
 }
 
+function getCookie(name: string): string | null {
+  const cookie = document.cookie
+    .split("; ")
+    .find((item) => item.startsWith(`${name}=`));
+
+  return cookie ? decodeURIComponent(cookie.substring(name.length + 1)) : null;
+}
+
 export async function getClientsWithFeedback(): Promise<Client[]> {
-  const response = await fetch(`${API_URL}/clients/`);
+  const response = await fetch(`${API_URL}/clients/`, {
+    credentials: "include",
+  });
 
   if (!response.ok) {
     throw new Error("Impossible de récupérer les feedbacks des clients");
@@ -16,7 +26,6 @@ export async function getClientsWithFeedback(): Promise<Client[]> {
 
   const data = await response.json();
 
-  // Si ton API retourne directement un tableau
   const clients: Client[] = Array.isArray(data)
     ? data
     : (data.results ?? data.data ?? []);
@@ -30,13 +39,19 @@ export async function updateClient(
   id: number | string | null,
   feedbacks: string,
 ) {
-  console.log("id", id);
+  if (id == null) {
+    throw new Error("L'identifiant du client est manquant");
+  }
+
+  const csrfToken = getCookie("csrftoken");
+
   const response = await fetch(`${API_URL}/clients/${id}/`, {
     method: "PATCH",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      ...(csrfToken ? { "X-CSRFToken": csrfToken } : {}),
     },
-
     body: JSON.stringify({ message: feedbacks }),
   });
 
@@ -45,7 +60,7 @@ export async function updateClient(
   let data: any;
 
   try {
-    data = JSON.parse(text);
+    data = text ? JSON.parse(text) : {};
   } catch {
     console.error("Réponse non JSON de l'API clients :", {
       status: response.status,
@@ -54,12 +69,6 @@ export async function updateClient(
     });
 
     throw new Error("L'API clients a renvoyé une réponse non JSON");
-  }
-
-  if (!response.ok) {
-    throw new Error(
-      data?.detail || "Impossible de récupérer les feedbacks des clients",
-    );
   }
 
   if (!response.ok) {
